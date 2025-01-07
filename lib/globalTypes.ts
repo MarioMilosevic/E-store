@@ -22,3 +22,21 @@ export type formFieldsObjectsType = {
   }[];
 };
 
+export type ProductType = {
+  auctionEndsAt: string;
+  buyerId: number | null;
+  category: string;
+  condition: string;
+  createdAt: string;
+  currentBid: number | null;
+  description: string;
+  id: string;
+  location: string;
+  price: number;
+  sellingMethod: string;
+  shippingOption: string;
+  singleImage: string;
+  status: string;
+  title: string;
+  userId:number
+}

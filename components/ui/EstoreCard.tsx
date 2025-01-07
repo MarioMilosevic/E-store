@@ -9,8 +9,8 @@ type EstoreCardProps = {
 };
 
 export default function EstoreCard({ data }: EstoreCardProps) {
-  console.log('ovo je data sto dobijm', data)
-    return (
+  console.log("ovo je data sto dobijm", data);
+  return (
     <Link href={data.id} key={data.id}>
       <Card className="h-[250px] cursor-pointer py-0 hover:scale-105 duration-300 transition-all">
         <CardContent className="relative w-full h-3/4 p-0 rounded-xl">

@@ -1,8 +1,16 @@
 import { categories } from "@/lib/constants";
 import { notFound } from "next/navigation";
-import EstoreCard from "@/components/ui/EstoreCard";
 import { ProductType } from "@/lib/globalTypes";
-
+import Link from "next/link";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import EstoreCard from "@/components/ui/EstoreCard";
 
 export default async function Page({
   params,
@@ -10,6 +18,7 @@ export default async function Page({
   params: Promise<{ categoryId: string }>;
 }) {
   const { categoryId } = await params;
+  console.log(categoryId);
   if (categories.findIndex((category) => category.id === categoryId) === -1) {
     notFound();
   }
@@ -25,14 +34,27 @@ export default async function Page({
   }
 
   return (
-    <>
-      {res.data.map((data:ProductType) => <EstoreCard key={data.id} data={data}/>)}
-      {/* res.data ima vise propertija nego sto EtoreCard prima, pa to moram prilagoditi */}
-     mario {/* {res.data.map((category) => (
-        <EstoreCard key={category.id} data={category} />
-      ))} */}
-    </>
+    <main className="border border-black flex flex-col gap-4">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Categories</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild className="capitalize">
+              <Link href="/components">{categoryId}</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="flex gap-4">
+      {res.data.map((data: ProductType) => (
+        <EstoreCard key={data.id} data={data} />
+      ))}
+      </div>
+    </main>
   );
-
-  // return <SingleCategory />;
 }

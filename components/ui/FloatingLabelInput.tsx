@@ -1,4 +1,4 @@
-import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
+import { FloatingInput, FloatingLabel } from "./floating-label-input";
 import { cn } from "@/lib/utils";
 
 type FloatingLabelInputProps = {

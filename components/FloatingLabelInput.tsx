@@ -1,8 +1,13 @@
 import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
+import { cn } from "@/lib/utils";
 
-const FloatingLabelInput = () => {
+type FloatingLabelInputProps = {
+  className: string;
+};
+
+const FloatingLabelInput = ({ className }: FloatingLabelInputProps) => {
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}>
       <FloatingInput id="floating-input" />
       <FloatingLabel htmlFor="floating-label">Search</FloatingLabel>
     </div>

@@ -7,16 +7,19 @@ export default function Categories() {
   return (
     <>
       {categories.map((category) => (
-        <Card key={category.id} className="max-h-[300px] h-full">
-          <CardContent className="relative w-full h-[300px] p-0">
+        <Card
+          key={category.id}
+          className="h-[250px] cursor-pointer py-0 hover:scale-105 duration-300 transition-all"
+        >
+          <CardContent className="relative w-full h-3/4 p-0 rounded-xl">
             <Image
               src={category.imageSrc}
               alt={category.label}
               fill
-              className="object-cover h-full"
+              className="object-cover h-full rounded-t-xl"
             />
           </CardContent>
-          <CardFooter className="text-sm font-medium p-2">
+          <CardFooter className="justify-center pb-4">
             <TypographyH4>{category.label}</TypographyH4>
           </CardFooter>
         </Card>

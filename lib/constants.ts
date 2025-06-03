@@ -1,15 +1,15 @@
-import electronics from "../public/categories/electronics.avif";
-import fashion from "../public/categories/fashion.avif";
-import homeGarden from "../public/categories/homeGarden.avif";
-import toys from "../public/categories/toys.avif";
-import games from "../public/categories/games.avif";
-import books from "../public/categories/books.avif";
-import sneakers from "../public/categories/sneakers.avif";
-import watchesJewelry from "../public/categories/watches.avif";
-import art from "../public/categories/art.avif";
-import music from "../public/categories/guitar.avif";
-import beauty from "../public/categories/beauty.avif";
-import office from "../public/categories/office.avif";
+import electronics from "../public/categories/electronics.jpg";
+import fashion from "../public/categories/fashion.jpg";
+import homeGarden from "../public/categories/homeGarden.jpg";
+import toys from "../public/categories/toys.jpg";
+import games from "../public/categories/games.jpg";
+import books from "../public/categories/books.jpg";
+import sneakers from "../public/categories/sneakers.jpg";
+import watchesJewelry from "../public/categories/watches.jpg";
+import art from "../public/categories/art.jpg";
+import musicalInstruments from "../public/categories/musicalInstruments.jpg";
+import beauty from "../public/categories/beauty.jpg";
+import office from "../public/categories/office.jpeg";
 
 export const categories = [
   { imageSrc: electronics, id: "electronics", label: "Electronics" },
@@ -25,7 +25,7 @@ export const categories = [
     label: "Watches & Jewelry",
   },
   { imageSrc: art, id: "art", label: "Art" },
-  { imageSrc: music, id: "music", label: "Musical Instruments" },
+  { imageSrc: musicalInstruments, id: "music", label: "Musical Instruments" },
   { imageSrc: beauty, id: "health-beauty", label: "Health & Beauty" },
   { imageSrc: office, id: "office-stationery", label: "Office & Stationery" },
 ];

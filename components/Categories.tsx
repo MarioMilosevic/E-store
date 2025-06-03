@@ -14,7 +14,9 @@ export default function Categories() {
               <Image
                 src={category.imageSrc}
                 alt={category.label}
-                fill
+                fill={true}
+                sizes="(max-width:300px)"
+                priority
                 className="object-cover h-full rounded-t-xl"
               />
             </CardContent>

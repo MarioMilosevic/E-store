@@ -3,13 +3,17 @@ import { cn } from "@/lib/utils";
 
 type FloatingLabelInputProps = {
   className: string;
+  children: React.ReactNode;
 };
 
-const FloatingLabelInput = ({ className }: FloatingLabelInputProps) => {
+const FloatingLabelInput = ({
+  className,
+  children,
+}: FloatingLabelInputProps) => {
   return (
     <div className={cn("relative", className)}>
       <FloatingInput id="floating-input" />
-      <FloatingLabel htmlFor="floating-label">Search</FloatingLabel>
+      <FloatingLabel htmlFor="floating-label">{children}</FloatingLabel>
     </div>
   );
 };

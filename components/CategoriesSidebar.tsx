@@ -11,6 +11,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 // Menu items.
 const items = [
   {
@@ -45,19 +52,33 @@ export function CategoriesSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Filter</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="items-1">
+                    <AccordionTrigger>Condition</AccordionTrigger>
+                    <AccordionContent>
+                      <p>Any Condition</p>
+                      <p>New</p>
+                      <p>Used</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="items-2">
+                    <AccordionTrigger>Product condition</AccordionTrigger>
+                    <AccordionContent>
+                      <p>Brand new</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="items-3">
+                    <AccordionTrigger>Product condition</AccordionTrigger>
+                    <AccordionContent>
+                      <p>Brand new</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

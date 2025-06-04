@@ -1,4 +1,4 @@
-import { CategoriesSidebar } from "@/components/CategoriesSidebar";
+import { CategoriesSidebar } from "@/components/categories/CategoriesSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 export default async function page({
   params,

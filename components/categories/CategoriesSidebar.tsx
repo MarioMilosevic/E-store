@@ -1,5 +1,7 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -7,7 +9,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
@@ -17,35 +18,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+import Price from "@/components/ui/Price";
 
 export function CategoriesSidebar() {
   return (
@@ -60,15 +33,32 @@ export function CategoriesSidebar() {
                   <AccordionItem value="items-1">
                     <AccordionTrigger>Condition</AccordionTrigger>
                     <AccordionContent>
-                      <p>Any Condition</p>
-                      <p>New</p>
-                      <p>Used</p>
+                      <RadioGroup defaultValue="any">
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem value="any" id="r1" />
+                          <Label htmlFor="r1">Any Condition</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem value="new" id="r2" />
+                          <Label htmlFor="r2">New</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem value="used" id="r3" />
+                          <Label htmlFor="r3">Used</Label>
+                        </div>
+                      </RadioGroup>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="items-2">
-                    <AccordionTrigger>Product condition</AccordionTrigger>
+                    <AccordionTrigger>Price</AccordionTrigger>
                     <AccordionContent>
-                      <p>Brand new</p>
+                      <div className="flex items-center gap-2">
+                        <Price>Min</Price>
+                        <Price>Max</Price>
+                        <Button variant="secondary" size="icon">
+                          <ArrowRight />
+                        </Button>
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="items-3">

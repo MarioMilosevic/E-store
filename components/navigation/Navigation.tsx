@@ -3,7 +3,7 @@ import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { Button } from "@/components/ui/button";
 import { CircleUserRound } from 'lucide-react'
 import Link from "next/link";
-import logo from "../public/logo/e-store.jpg";
+import logo from "../../public/logo/e-store.jpg";
 import Image from "next/image";
 
 export default function Navigation() {

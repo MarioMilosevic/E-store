@@ -2,7 +2,7 @@ import { FloatingInput, FloatingLabel } from "./floating-label-input";
 import { cn } from "@/lib/utils";
 
 type FloatingLabelInputProps = {
-  className: string;
+  className?: string;
   children: React.ReactNode;
 };
 

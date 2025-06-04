@@ -1,4 +1,5 @@
-// import { Suspense } from "react";
+import { CategoriesSidebar } from "@/components/CategoriesSidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 export default async function page({
   params,
 }: {
@@ -8,10 +9,11 @@ export default async function page({
   console.log(categoryId);
 
   return (
-    <section className="flex flex-col items-center gap-2">
-      {/* <Suspense fallback={<h1>LOADING...</h1>}> */}
-        <h2>{categoryId}</h2>
-      {/* </Suspense> */}
-    </section>
+    <>
+      <SidebarProvider>
+        <CategoriesSidebar />
+      </SidebarProvider>
+      <h2>{categoryId}</h2>;
+    </>
   );
 }

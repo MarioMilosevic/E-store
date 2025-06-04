@@ -1,9 +1,9 @@
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { Button } from "@/components/ui/button";
-import { RiAccountCircleLine } from "react-icons/ri";
+import { CircleUserRound } from 'lucide-react'
 import Link from "next/link";
-import logo from "../public/logo/ebay.jpg";
+import logo from "../public/logo/e-store.jpg";
 import Image from "next/image";
 
 export default function Navigation() {
@@ -14,7 +14,7 @@ export default function Navigation() {
           src={logo}
           alt="logo"
           width={150}
-          className="h-full object-cover cursor-pointer"
+          className="h-[50px] object-cover cursor-pointer"
         />
       </Link>
       <FloatingLabelInput className="w-2/3">
@@ -22,7 +22,7 @@ export default function Navigation() {
       </FloatingLabelInput>
       <div className="flex gap-4 items-center">
         <Button variant={"outline"}>Search</Button>
-        <RiAccountCircleLine size={30} className="cursor-pointer" />
+        <CircleUserRound size={30} className="cursor-pointer" />
       </div>
     </NavigationMenu>
   );

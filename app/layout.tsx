@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ebay store",
+  title: "E-store",
   description: "Auction house store",
 };
 

@@ -13,7 +13,6 @@ export default async function page({
       <SidebarProvider>
         <CategoriesSidebar />
       </SidebarProvider>
-      <h2>{categoryId}</h2>;
     </>
   );
 }

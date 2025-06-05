@@ -9,5 +9,7 @@ export default function CategoryLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="max-w-[1280px] mx-auto py-12 relative border border-black">{children}</main>;
+  return (
+    <main className="max-w-[1280px] mx-auto py-12 relative">{children}</main>
+  );
 }

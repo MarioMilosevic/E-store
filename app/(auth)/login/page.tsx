@@ -33,7 +33,7 @@ export default function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FloatingLabelInput id="email" field={field} type="email">
+              <FloatingLabelInput id="email" field={field}>
                 Email
               </FloatingLabelInput>
               <FormMessage />

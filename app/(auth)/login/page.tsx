@@ -3,31 +3,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 
-// 1. Zod schema for validation
 const formSchema = z.object({
-  //   username: z.string().min(2, {
-  //     message: "Username must be at least 2 characters.",
-  //   }),
   email: z.string().email(),
   password: z.string().min(8),
 });
 
-// 2. Component
-export function LoginForm() {
-  // Create form with schema and default values
+export default function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,13 +21,11 @@ export function LoginForm() {
     },
   });
 
-  // Submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Submitted values:", values);
   }
 
-  // Form JSX
-  return (
+    return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
@@ -50,10 +33,9 @@ export function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FloatingLabelInput id="email" {...field}>Email</FloatingLabelInput>
-              {/* <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl> */}
+              <FloatingLabelInput id="email" field={field} type="email">
+                Email
+              </FloatingLabelInput>
               <FormMessage />
             </FormItem>
           )}
@@ -63,10 +45,9 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-                  <FloatingLabelInput id="password" field={field }>Password</FloatingLabelInput>
-              {/* <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl> */}
+              <FloatingLabelInput id="password" field={field} type="password">
+                Password
+              </FloatingLabelInput>
               <FormMessage />
             </FormItem>
           )}

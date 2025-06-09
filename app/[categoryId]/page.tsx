@@ -6,8 +6,7 @@ export default async function page({
   params: Promise<{ categoryId: string }>;
 }) {
   const { categoryId } = await params;
-  console.log(categoryId);
-
+console.log(categoryId)
   return (
     <>
       <SidebarProvider>

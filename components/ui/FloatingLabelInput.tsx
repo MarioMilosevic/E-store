@@ -4,20 +4,21 @@ import { cn } from "@/lib/utils";
 type FloatingLabelInputProps = {
   className?: string;
   children: React.ReactNode;
-  field?: React.InputHTMLAttributes<HTMLInputElement>,
-  id:string
+  field?: React.InputHTMLAttributes<HTMLInputElement>;
+  id: string;
+  type?: string;
 };
 
 const FloatingLabelInput = ({
   className,
   children,
   id,
-  field
+  field,
+  type = "text",
 }: FloatingLabelInputProps) => {
-  console.log(field)
   return (
     <div className={cn("relative", className)}>
-      <FloatingInput id={id} {...field} />
+      <FloatingInput id={id} {...field} type={type} />
       <FloatingLabel htmlFor={id}>{children}</FloatingLabel>
     </div>
   );

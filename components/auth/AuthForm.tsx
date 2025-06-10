@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { UseFormReturn, FieldValues } from "react-hook-form";
+import FormSubmit from "@/components/auth/FormSubmit";
 
 type FormFieldObjType = {
   name: string;
@@ -102,9 +103,9 @@ export default function AuthForm({
                 )}
               />
             ))}
-            <Button type="submit" className="w-full">
-              {children ? "Create an account" : "Submit"}
-            </Button>
+            <FormSubmit type={'submit'}>{children ? "Create an account" : "Submit"}</FormSubmit>
+            {/* <Button type="submit" className="w-full"> */}
+            {/* </Button> */}
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">

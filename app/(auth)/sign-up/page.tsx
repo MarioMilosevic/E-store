@@ -1,5 +1,5 @@
 "use client";
-import AuthForm from "../AuthForm";
+import AuthForm from "../../../components/auth/AuthForm";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -31,7 +31,6 @@ const formSchema = z
     password: z.string().min(8, passwordMessage),
     passwordConfirm: z.string().min(8, passwordMessage),
   });
-
 
 export default function SignUpForm() {
   const form = useForm<z.infer<typeof formSchema>>({

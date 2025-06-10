@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -11,7 +9,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, FieldValues } from "react-hook-form";
 
 type FormFieldObjType = {
   name: string;
@@ -19,19 +17,20 @@ type FormFieldObjType = {
   type: string;
 };
 
-type AuthFormProps<T> = {
-  form: UseFormReturn<T>; // <-- Make form generic
+type AuthFormProps<T extends FieldValues> = {
+  form: UseFormReturn<T>;
   cardInfo: {
     cardTitle: string;
     cardDescription: string;
   };
-  onSubmit: (values: T) => void; // <-- Make onSubmit generic
+  onSubmit: (values: T) => void;
   formFields: FormFieldObjType[];
   submitObj: {
     buttonText: string;
     contentText: string;
     href: string;
   };
+  children?: React.ReactNode;
 };
 
 export default function AuthForm({
@@ -40,6 +39,7 @@ export default function AuthForm({
   onSubmit,
   formFields,
   submitObj,
+  children,
 }: AuthFormProps) {
   return (
     <Card>
@@ -53,6 +53,7 @@ export default function AuthForm({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-4"
           >
+            {children}
             {formFields.map((formField) => (
               <FormField
                 key={formField.name}
@@ -73,7 +74,7 @@ export default function AuthForm({
               />
             ))}
             <Button type="submit" className="w-full">
-              Submit
+              {children ? "Create an account" : "Submit"}
             </Button>
           </form>
         </Form>

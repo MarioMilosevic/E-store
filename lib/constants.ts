@@ -29,3 +29,7 @@ export const categories = [
   { imageSrc: beauty, id: "health-beauty", label: "Health & Beauty" },
   { imageSrc: office, id: "office-stationery", label: "Office & Stationery" },
 ];
+
+export const passwordMessage = {
+  message: "Password must be at least 8 characters",
+};

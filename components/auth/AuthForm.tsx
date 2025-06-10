@@ -80,7 +80,8 @@ export default function AuthForm({
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            // onSubmit={form.handleSubmit(onSubmit)}
+            action={onSubmit}
             className="flex flex-col gap-4"
           >
             {children}
@@ -103,9 +104,9 @@ export default function AuthForm({
                 )}
               />
             ))}
-            <FormSubmit type={'submit'}>{children ? "Create an account" : "Submit"}</FormSubmit>
-            {/* <Button type="submit" className="w-full"> */}
-            {/* </Button> */}
+            <FormSubmit type={"submit"}>
+              {children ? "Create an account" : "Submit"}
+            </FormSubmit>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">

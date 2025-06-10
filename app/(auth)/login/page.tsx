@@ -1,6 +1,6 @@
 "use client";
 import AuthForm from "../../../components/auth/AuthForm";
-
+import { loginUser } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -43,15 +43,16 @@ export default function LoginForm() {
     cardDescription: "Enter your credentials to log in",
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted values:", values);
-  }
+  // function onSubmit(values: z.infer<typeof formSchema>) {
+  // console.log("Submitted values:", values);
+  // }
+  
 
   return (
     <AuthForm
       form={form}
       cardInfo={cardObj}
-      onSubmit={onSubmit}
+      onSubmit={loginUser}
       formFields={formFields}
       submitObj={submitObj}
     />

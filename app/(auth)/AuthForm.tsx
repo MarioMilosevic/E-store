@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -41,8 +43,35 @@ export default function AuthForm({
   submitObj,
   children,
 }: AuthFormProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const formRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.1,
+      }
+    );
+    if (formRef.current) {
+      observer.observe(formRef.current);
+    }
+  }, []);
+
   return (
-    <Card>
+    <Card
+      className={`transition-all duration-700 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      }`}
+      ref={formRef}
+    >
       <CardHeader>
         <CardTitle className="text-xl">{cardInfo.cardTitle}</CardTitle>
         <CardDescription>{cardInfo.cardDescription}</CardDescription>

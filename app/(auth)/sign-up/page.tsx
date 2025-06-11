@@ -1,40 +1,17 @@
 "use client";
-import AuthForm from "../../../components/auth/AuthForm";
+import AuthForm from "@/components/auth/AuthForm";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { passwordMessage } from "@/lib/constants";
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
+import { signUpFormSchema } from "@/lib/zodSchemas";
 
-const formSchema = z
-  .object({
-    firstName: z.string().min(2).max(20),
-    lastName: z.string().min(2).max(30),
-    // fullName: z
-    //   .string()
-    //   .min(5, {
-    //     message: "Must be at least 5 character(s)",
-    //   })
-    //   .refine(
-    //     (value) => {
-    //       const names = value.trim().split(" ");
-    //       return names.length >= 2 && names[1].length >= 2;
-    //     },
-    //     {
-    //       message: "Last name must have at least 2 characters",
-    //     }
-    //   ),
-    email: z.string().email(),
-  })
-  .extend({
-    password: z.string().min(8, passwordMessage),
-    passwordConfirm: z.string().min(8, passwordMessage),
-  });
+
 
 export default function SignUpForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signUpFormSchema>>({
+    resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -73,10 +50,7 @@ export default function SignUpForm() {
     cardDescription: "Enter your information to create an account",
   };
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  function onSubmit(values: z.infer<typeof signUpFormSchema>) {
     console.log(values);
   }
 

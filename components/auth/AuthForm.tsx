@@ -1,8 +1,7 @@
 "use client";
-// import { useFormState } from "react-dom";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Form, FormField, FormItem} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import {
   Card,
   CardDescription,
@@ -10,10 +9,9 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
-import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { UseFormReturn, FieldValues } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { ButtonLoading } from "@/components/ui/ButtonLoading";
+import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
+import FormSubmit from "@/components/auth/FormSubmit";
 
 type FormFieldObjType = {
   name: string;
@@ -27,7 +25,7 @@ type AuthFormProps<T extends FieldValues> = {
     cardTitle: string;
     cardDescription: string;
   };
-  action: (values: T) => void;
+  submitHandler: (values: T) => void;
   formFields: FormFieldObjType[];
   submitObj: {
     buttonText: string;
@@ -40,17 +38,13 @@ type AuthFormProps<T extends FieldValues> = {
 export default function AuthForm({
   form,
   cardInfo,
-  action,
+  submitHandler,
   formFields,
   submitObj,
   children,
 }: AuthFormProps) {
   const [isVisible, setIsVisible] = useState(false);
   const formRef = useRef<HTMLElement | null>(null);
-  const [state, formAction, isLoading] = useActionState(action, {
-    email: "",
-    password: "",
-  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -69,8 +63,7 @@ export default function AuthForm({
     if (formRef.current) {
       observer.observe(formRef.current);
     }
-    console.log("use effect", state);
-  }, [state]);
+  }, []);
 
   return (
     <Card
@@ -85,7 +78,10 @@ export default function AuthForm({
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form action={formAction} className="flex flex-col gap-4">
+          <form
+            onSubmit={form.handleSubmit(submitHandler)}
+            className="flex flex-col gap-4"
+          >
             {children}
             {formFields.map((formField) => (
               <FormField
@@ -102,27 +98,15 @@ export default function AuthForm({
                       >
                         {formField.content}
                       </FloatingLabelInput>
-                      {state[field.name] ? (
-                        <p className="text-red-600 text-sm pl-1">
-                          {state[field.name][0]}
-                        </p>
-                      ) : (
-                        ""
-                      )}
+                      <FormMessage />
                     </FormItem>
                   );
                 }}
               />
             ))}
-            {/* {state && <p className="text-red-600">{state}</p>} */}
-            {isLoading ? (
-              <ButtonLoading />
-            ) : (
-              <Button>{children ? "Create an account" : "Submit"}</Button>
-            )}
-            {/* <FormSubmit type={"submit"}>
+            <FormSubmit type="submit">
               {children ? "Create an account" : "Submit"}
-            </FormSubmit> */}
+            </FormSubmit>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">

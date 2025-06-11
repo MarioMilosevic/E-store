@@ -1,22 +1,20 @@
 "use server";
+
 import { z } from "zod";
+import { loginFormSchema } from "@/lib/zodSchemas";
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+export async function loginUser(values: z.infer<typeof loginFormSchema>) {
+  const result = loginFormSchema.safeParse(values);
 
-export async function loginUser(prevstate: string, formData: FormData) {
-  console.log("ovo je prethodni stejt", prevstate);
-  const validatedFields = formSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
-  if (!validatedFields.success) {
-    console.log(validatedFields.error.flatten().fieldErrors);
-    return validatedFields.error.flatten().fieldErrors;
-  } else {
-    console.log("prosla forma", validatedFields.data);
-    return { email: "", password: "" };
+  if (!result.success) {
+    return {
+      status: "error",
+      message: "Something went wrong",
+    };
   }
+
+  return {
+    status: "success",
+    message: "Request sent successfully",
+  };
 }

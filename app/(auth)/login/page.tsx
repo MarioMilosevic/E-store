@@ -3,16 +3,13 @@ import AuthForm from "@/components/auth/AuthForm";
 import { loginUser } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { loginFormSchema } from "@/lib/zodSchemas";
 import { z } from "zod";
-
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+import { toast } from "sonner";
 
 export default function LoginForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -43,17 +40,24 @@ export default function LoginForm() {
     cardDescription: "Enter your credentials to log in",
   };
 
-//  async function onSubmit(values: z.infer<typeof formSchema>) {
-//     console.log("Submitted values:", values);
-//     // await loginUser(values)
-//   }
-  
+  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+    console.log("Submitted values:", values);
+    const result = await loginUser(values);
+    
+
+    if (result.status === 'error') {
+      toast.error(result.message)
+    } else {
+      toast.success(result.message)
+    }
+
+  }
 
   return (
     <AuthForm
       form={form}
       cardInfo={cardObj}
-      action={loginUser}
+      submitHandler={onSubmit}
       formFields={formFields}
       submitObj={submitObj}
     />

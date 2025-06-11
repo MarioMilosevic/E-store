@@ -4,6 +4,7 @@ import { loginUser } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginFormSchema } from "@/lib/zodSchemas";
+import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
 import { toast } from "sonner";
 
@@ -16,17 +17,9 @@ export default function LoginForm() {
     },
   });
 
-  const formFields = [
-    {
-      name: "email",
-      content: "Email",
-      type: "text",
-    },
-    {
-      name: "password",
-      content: "Password",
-      type: "password",
-    },
+  const formFields: FormFieldObjType<{ email: string; password: string }>[] = [
+    { name: "email", content: "Email", type: "text" },
+    { name: "password", content: "Password", type: "password" },
   ];
 
   const submitObj = {
@@ -41,16 +34,13 @@ export default function LoginForm() {
   };
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log("Submitted values:", values);
     const result = await loginUser(values);
-    
 
-    if (result.status === 'error') {
-      toast.error(result.message)
+    if (result.status === "error") {
+      toast.error(result.message);
     } else {
-      toast.success(result.message)
+      toast.success(result.message);
     }
-
   }
 
   return (

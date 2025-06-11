@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { FormFieldObjType } from "@/lib/globalTypes";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import {
   Card,
@@ -9,15 +10,11 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
-import { UseFormReturn, FieldValues } from "react-hook-form";
+import { UseFormReturn, FieldValues , Path} from "react-hook-form";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import FormSubmit from "@/components/auth/FormSubmit";
 
-type FormFieldObjType = {
-  name: string;
-  content: string;
-  type: string;
-};
+
 
 type AuthFormProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -26,7 +23,7 @@ type AuthFormProps<T extends FieldValues> = {
     cardDescription: string;
   };
   submitHandler: (values: T) => void;
-  formFields: FormFieldObjType[];
+  formFields: FormFieldObjType<T>[];
   submitObj: {
     buttonText: string;
     contentText: string;
@@ -35,16 +32,16 @@ type AuthFormProps<T extends FieldValues> = {
   children?: React.ReactNode;
 };
 
-export default function AuthForm({
+export default function AuthForm<T extends FieldValues>({
   form,
   cardInfo,
   submitHandler,
   formFields,
   submitObj,
   children,
-}: AuthFormProps) {
+}: AuthFormProps<T>) {
   const [isVisible, setIsVisible] = useState(false);
-  const formRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,7 +84,7 @@ export default function AuthForm({
               <FormField
                 key={formField.name}
                 control={form.control}
-                name={formField.name}
+                name={formField.name as Path<T>}
                 render={({ field }) => {
                   return (
                     <FormItem>
@@ -104,7 +101,10 @@ export default function AuthForm({
                 }}
               />
             ))}
-            <FormSubmit type="submit">
+            <FormSubmit
+              type="submit"
+              isSubmitting={form.formState.isSubmitting}
+            >
               {children ? "Create an account" : "Submit"}
             </FormSubmit>
           </form>

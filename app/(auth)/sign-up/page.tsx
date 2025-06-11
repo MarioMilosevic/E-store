@@ -6,8 +6,7 @@ import { useForm } from "react-hook-form";
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { signUpFormSchema } from "@/lib/zodSchemas";
-
-
+import { FormFieldObjType } from "@/lib/globalTypes";
 
 export default function SignUpForm() {
   const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -21,7 +20,7 @@ export default function SignUpForm() {
     },
   });
 
-  const formFields = [
+  const formFields: FormFieldObjType<z.infer<typeof signUpFormSchema>>[] = [
     {
       name: "email",
       content: "Email",
@@ -29,15 +28,16 @@ export default function SignUpForm() {
     },
     {
       name: "password",
-      content: "Passsword",
+      content: "Password",
       type: "password",
     },
     {
       name: "passwordConfirm",
-      content: "Confirm Passsword",
+      content: "Confirm Password",
       type: "password",
     },
   ];
+  
 
   const submitObj = {
     contentText: "Already have an account?",
@@ -50,14 +50,15 @@ export default function SignUpForm() {
     cardDescription: "Enter your information to create an account",
   };
 
-  function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(values);
   }
 
   return (
     <AuthForm
       form={form}
-      onSubmit={onSubmit}
+      submitHandler={onSubmit}
       cardInfo={cardInfo}
       submitObj={submitObj}
       formFields={formFields}

@@ -1,19 +1,22 @@
+// FormSubmit.tsx
 "use client";
-import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { ButtonLoading } from "@/components/ui/ButtonLoading";
 
 type FormSubmitProps = {
   children: React.ReactNode;
   type: "submit" | "reset" | "button";
+  isSubmitting: boolean;
 };
 
-export default function FormSubmit({ children, type }: FormSubmitProps) {
-  const status = useFormStatus();
-
-  if (status.pending) {
-    return <ButtonLoading />;
-  }
-
-  return <Button type={type}>{children}</Button>;
+export default function FormSubmit({
+  children,
+  type,
+  isSubmitting,
+}: FormSubmitProps) {
+  return isSubmitting ? (
+    <ButtonLoading />
+  ) : (
+    <Button type={type}>{children}</Button>
+  );
 }

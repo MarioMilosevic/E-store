@@ -4,9 +4,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
-import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { signUpFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
+import { signUpUser } from "@/actions/sign-up";
+import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 
 export default function SignUpForm() {
   const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -51,8 +52,8 @@ export default function SignUpForm() {
   };
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(values);
+   const response = await signUpUser(values)
+    console.log(response);
   }
 
   return (

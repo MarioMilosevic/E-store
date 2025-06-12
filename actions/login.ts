@@ -12,6 +12,7 @@ export async function loginUser(values: z.infer<typeof loginFormSchema>) {
       message: "Something went wrong",
     };
   }
+  console.log("ovo je result",result)
 
   return {
     status: "success",

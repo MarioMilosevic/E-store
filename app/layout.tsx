@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${inter.variable} antialiased`}>
         <Navigation />
         {children}
-        <Toaster richColors closeButton/>
+        <Toaster position="top-center" closeButton />
       </body>
     </html>
   );

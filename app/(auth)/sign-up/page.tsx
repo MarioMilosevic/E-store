@@ -7,7 +7,10 @@ import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { signUpFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
 import { signUpUser } from "@/actions/sign-up";
+import { toast } from "sonner";
+
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
+import { redirect } from "next/navigation";
 
 export default function SignUpForm() {
   const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -38,7 +41,6 @@ export default function SignUpForm() {
       type: "password",
     },
   ];
-  
 
   const submitObj = {
     contentText: "Already have an account?",
@@ -52,8 +54,14 @@ export default function SignUpForm() {
   };
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-   const response = await signUpUser(values)
-    console.log(response);
+    const result = await signUpUser(values);
+    console.log(result);
+    if (result.status === "error") {
+      toast.error(result.message);
+    } else {
+      toast.success(result.message);
+      redirect("/login");
+    }
   }
 
   return (

@@ -21,7 +21,6 @@ model User {
   createdDate DateTime @default(now())
   role  Role @default(USER)
   password  String
-  passwordConfirm String?
 }
 
 enum Role {

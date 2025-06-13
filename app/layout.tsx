@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import Navigation from "@/components/navigation/Navigation";
 import { Toaster } from "sonner";
+import ClientProvider from "@/components/provider/ClientProvider";
 import "./globals.css";
+import { getUser } from "@/lib/utils/getUser";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -20,14 +22,17 @@ export const metadata: Metadata = {
   description: "Auction house store",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUser();
+
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${inter.variable} antialiased`}>
+        <ClientProvider user={user} />
         <Navigation />
         {children}
         <Toaster position="top-center" closeButton />

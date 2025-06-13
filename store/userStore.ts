@@ -2,18 +2,12 @@ import { create } from "zustand";
 import { UserType } from "@/lib/types";
 
 type UserStore = {
-  user: UserType;
+  user: UserType | null;
   setUser: (user: UserType) => void;
 };
 
 const useUserStore = create<UserStore>((set) => ({
-  user: {
-    id: 0,
-    fullName: "",
-    email: "",
-    createdDate: null,
-    role: "USER",
-  },
+  user:null,
   setUser: (user) => set({ user }),
 }));
 

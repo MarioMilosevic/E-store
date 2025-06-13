@@ -1,5 +1,6 @@
 "use client";
 import AuthForm from "@/components/auth/AuthForm";
+import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,8 +9,6 @@ import { signUpFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
 import { signUpUser } from "@/actions/sign-up";
 import { toast } from "sonner";
-
-import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 import { redirect } from "next/navigation";
 
 export default function SignUpForm() {
@@ -55,7 +54,6 @@ export default function SignUpForm() {
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
     const result = await signUpUser(values);
-    console.log(result);
     if (result.status === "error") {
       toast.error(result.message);
     } else {

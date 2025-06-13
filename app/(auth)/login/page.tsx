@@ -7,6 +7,7 @@ import { loginFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -40,6 +41,7 @@ export default function LoginForm() {
       toast.error(result.message);
     } else {
       toast.success(result.message);
+      redirect('/')
     }
   }
 

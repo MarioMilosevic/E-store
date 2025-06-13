@@ -6,7 +6,6 @@ import prisma from "@/prisma/prismaClient";
 
 export async function signUpUser(values: z.infer<typeof signUpFormSchema>) {
   const result = signUpFormSchema.safeParse(values);
-  console.log("ovo je result", result);
 
   if (!result.success) {
     return {
@@ -22,7 +21,6 @@ export async function signUpUser(values: z.infer<typeof signUpFormSchema>) {
 
   const fullName = `${firstName} ${lastName}`;
 
-  console.log("ovo je existing email", existingEmail);
 
   if (existingEmail) {
     return {

@@ -1,5 +1,4 @@
 "use client";
-import AuthForm from "@/components/auth/AuthForm";
 import { loginUser } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,6 +7,8 @@ import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import AuthForm from "@/components/auth/AuthForm";
+import useUserStore from "@/store/userStore";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -17,6 +18,9 @@ export default function LoginForm() {
       password: "",
     },
   });
+
+  const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
 
   const formFields: FormFieldObjType<{ email: string; password: string }>[] = [
     { name: "email", content: "Email", type: "text" },
@@ -41,7 +45,10 @@ export default function LoginForm() {
       toast.error(result.message);
     } else {
       toast.success(result.message);
-      redirect('/')
+      console.log("ovo me zanima", result.data);
+      setUser(result.data);
+      console.log("ovo bi trebao biti user", user);
+      redirect("/");
     }
   }
 

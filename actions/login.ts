@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 import { loginFormSchema } from "@/lib/zodSchemas";
-import prisma from "@/prisma/prismaClient";
 import { createSession } from "@/lib/session";
+import prisma from "@/prisma/prismaClient";
 
 export async function loginUser(values: z.infer<typeof loginFormSchema>) {
   const result = loginFormSchema.safeParse(values);
@@ -14,7 +14,6 @@ export async function loginUser(values: z.infer<typeof loginFormSchema>) {
       message: "Something went wrong",
     };
   }
-  console.log("ovo je result", result);
   const { email, password } = result.data;
 
   const userInfo = await prisma.user.findUnique({
@@ -23,7 +22,6 @@ export async function loginUser(values: z.infer<typeof loginFormSchema>) {
       password: true,
     },
   });
-  console.log("ovo je user info", userInfo);
 
   if (!userInfo) {
     return {
@@ -36,7 +34,6 @@ export async function loginUser(values: z.infer<typeof loginFormSchema>) {
     password,
     userInfo?.password
   );
-  console.log("ovo je password validation", passwordValidation);
 
   if (!passwordValidation) {
     return {
@@ -51,10 +48,10 @@ export async function loginUser(values: z.infer<typeof loginFormSchema>) {
       id: true,
       fullName: true,
       email: true,
+      role:true
     },
   });
 
-  console.log("ovo je user", user);
 
   if (user) {
     const userIdString = String(user.id)
@@ -62,6 +59,7 @@ export async function loginUser(values: z.infer<typeof loginFormSchema>) {
     return {
       status: "success",
       message: "Login successfull",
+      data:user
     };
   }
 

@@ -8,7 +8,13 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function AuthToggleButton() {
   const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  const logOut = async () => {
+    await logout();
+    setUser(null)
+  };
 
   useEffect(() => {
     setIsLoaded(true);
@@ -21,7 +27,7 @@ export default function AuthToggleButton() {
   return (
     <>
       {user ? (
-        <Button formAction={logout}>Log out</Button>
+        <Button onClick={logOut}>Log out</Button>
       ) : (
         <Button asChild>
           <Link href="/login">Log in</Link>

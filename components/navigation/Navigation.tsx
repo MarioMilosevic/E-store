@@ -1,10 +1,11 @@
 import { NavigationMenu } from "@/components/ui/navigation-menu";
-// import { Button } from "@/components/ui/button";
 import { CircleUserRound } from "lucide-react";
-import LoginLogout from "@/components/navigation/LoginLogout";
+
 import Link from "next/link";
 import logo from "../../public/logo/e-store.jpg";
 import Image from "next/image";
+
+import AuthToggleButton from "@/components/navigation/AuthToggleButton";
 
 export default function Navigation() {
   return (
@@ -21,10 +22,7 @@ export default function Navigation() {
         <Link href={"/profile"}>
           <CircleUserRound size={30} className="cursor-pointer" />
         </Link>
-        <LoginLogout/>
-        {/* <Link href={"/login"}>
-          <Button>Log In</Button>
-        </Link> */}
+        <AuthToggleButton />
       </div>
     </NavigationMenu>
   );

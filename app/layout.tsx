@@ -32,10 +32,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${inter.variable} antialiased`}>
-        <ClientProvider user={user} />
-        <Navigation />
-        {children}
-        <Toaster position="top-center" closeButton />
+        <ClientProvider user={user}>
+          <Navigation />
+          {children}
+          <Toaster position="top-center" closeButton />
+        </ClientProvider>
       </body>
     </html>
   );

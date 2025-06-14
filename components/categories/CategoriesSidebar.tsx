@@ -94,7 +94,11 @@ export function CategoriesSidebar() {
                   </AccordionItem>
                   <AccordionItem value="shipping">
                     <AccordionTrigger>Shipping</AccordionTrigger>
-                    <AccordionContent>
+                    <AccordionContent className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <Checkbox />
+                        <p>Standard Shipping (10-30 days)</p>
+                      </div>
                       <div className="flex items-center gap-2">
                         <Checkbox />
                         <p>Fast Shipping (1-2 days)</p>

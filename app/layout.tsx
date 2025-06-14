@@ -31,7 +31,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${inter.variable} antialiased`}>
+      <body
+        className={`${poppins.variable} ${inter.variable} antialiased pt-28`}
+      >
         <ClientProvider user={user}>
           <Navigation />
           {children}

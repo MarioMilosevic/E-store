@@ -1,15 +1,13 @@
 import { NavigationMenu } from "@/components/ui/navigation-menu";
-import { CircleUserRound } from "lucide-react";
+import UserMenu from "@/components/navigation/UserMenu";
 
 import Link from "next/link";
 import logo from "../../public/logo/e-store.jpg";
 import Image from "next/image";
 
-import AuthToggleButton from "@/components/navigation/AuthToggleButton";
-
 export default function Navigation() {
   return (
-    <NavigationMenu className="border-b-neutral-200 border-b max-w-full flex justify-between items-center px-12 h-[100px] gap-8 mb-12">
+    <NavigationMenu className="border-b-neutral-200 bg-white border-b max-w-full fixed top-0 left-0 w-full z-30 flex justify-between items-center px-12 h-[75px] mb-12">
       <Link href={"/"}>
         <Image
           src={logo}
@@ -18,12 +16,7 @@ export default function Navigation() {
           className="h-[50px] object-cover cursor-pointer"
         />
       </Link>
-      <div className="flex gap-4 items-center">
-        <Link href={"/profile"}>
-          <CircleUserRound size={30} className="cursor-pointer" />
-        </Link>
-        <AuthToggleButton />
-      </div>
+      <UserMenu />
     </NavigationMenu>
   );
 }

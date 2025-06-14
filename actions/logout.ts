@@ -1,6 +1,8 @@
-import { deleteSession } from "@/lib/session";
-
+"use server";
+// import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 export async function logout() {
-    await deleteSession()
-    // redirect ili revalidate path sta vec
+  (await cookies()).delete("session");
+  // redirect("/");
+  // redirect ili revalidate path sta vec
 }

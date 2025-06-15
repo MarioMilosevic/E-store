@@ -74,7 +74,7 @@ export default function SignUpForm() {
   return (
     <AuthForm
       form={form}
-      submitHandler={onSubmit}
+      submitHandler={() => onSubmit(form.getValues())}
       cardInfo={cardInfo}
       submitObj={submitObj}
       formFields={formFields}

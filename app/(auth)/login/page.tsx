@@ -5,7 +5,7 @@ import { loginFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AuthForm from "@/components/auth/AuthForm";
 import useUserStore from "@/store/userStore";
 
@@ -19,6 +19,7 @@ export default function LoginForm() {
   });
 
   const setUser = useUserStore((state) => state.setUser);
+  const router = useRouter();
 
   const formFields: FormFieldObjType<{ email: string; password: string }>[] = [
     { name: "email", content: "Email", type: "text" },
@@ -50,7 +51,7 @@ export default function LoginForm() {
     if (result.success) {
       toast.success(result.message);
       setUser(result.data);
-      redirect("/");
+      router.push("/");
     } else {
       toast.error(result.message);
     }

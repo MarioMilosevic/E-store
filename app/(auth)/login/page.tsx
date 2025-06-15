@@ -1,5 +1,4 @@
 "use client";
-import { loginUser } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginFormSchema } from "@/lib/zodSchemas";
@@ -20,7 +19,6 @@ export default function LoginForm() {
   });
 
   const setUser = useUserStore((state) => state.setUser);
-  const user = useUserStore((state) => state.user);
 
   const formFields: FormFieldObjType<{ email: string; password: string }>[] = [
     { name: "email", content: "Email", type: "text" },
@@ -39,7 +37,6 @@ export default function LoginForm() {
   };
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log(values);
     const response = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -47,28 +44,16 @@ export default function LoginForm() {
       },
       body: JSON.stringify(values),
     });
-    console.log("ovo je response", response);
 
     const result = await response.json();
-    console.log("ovo je result", result);
 
-    // if (result.status === "error") {
-    //   toast.error(result.message);
-    // } else {
-    //   toast.success(result.message);
-    // }
-
-    // const result = await loginUser(values);
-
-    // if (result.status === "error") {
-    //   toast.error(result.message);
-    // } else {
-    //   toast.success(result.message);
-    //   console.log("ovo me zanima", result.data);
-    //   setUser(result.data);
-    //   console.log("ovo bi trebao biti user", user);
-    //   redirect("/");
-    // }
+    if (result.success) {
+      toast.success(result.message);
+      setUser(result.data);
+      redirect("/");
+    } else {
+      toast.error(result.message);
+    }
   }
 
   return (

@@ -1,5 +1,5 @@
 function createErrorResponse(status: number, message?: string) {
-  return new Response(JSON.stringify({ status, message }), {
+  return new Response(JSON.stringify({ message, success:false }), {
     status,
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ const errorFactory = {
     createErrorResponse(403, message),
   notFound: (message: string = "Not Found") =>
     createErrorResponse(404, message),
-  internalError: (message: string = "Internal Server Error") =>
+  internalServerError: (message: string = "Internal Server Error") =>
     createErrorResponse(500, message),
 };
 

@@ -53,13 +53,14 @@ export default function SignUpForm() {
   };
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    const result = await signUpUser(values);
-    if (result.status === "error") {
-      toast.error(result.message);
-    } else {
-      toast.success(result.message);
-      redirect("/login");
-    }
+    // const result = await signUpUser(values);
+    // if (result.status === "error") {
+    //   toast.error(result.message);
+    // } else {
+    //   toast.success(result.message);
+    //   redirect("/login");
+    // }
+    console.log('treba sign up')
   }
 
   return (

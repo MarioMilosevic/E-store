@@ -3,10 +3,10 @@
 import useUserStore from "@/store/userStore";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { logout } from "@/actions/logout";
 import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { CircleUserRound, CirclePlus } from "lucide-react";
+import { toast } from "sonner";
 
 export default function UserMenu() {
   const user = useUserStore((state) => state.user);
@@ -14,8 +14,28 @@ export default function UserMenu() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const logOut = async () => {
-    await logout();
-    setUser(null);
+    console.log("log out clicked");
+    const response = await fetch("/api/logout", {
+      method: "DELETE",
+    });
+    console.log(response);
+
+    if (!response.ok) {
+      toast.error("Logout failed. Please try again.");
+    } else {
+      toast.success("Logout successful");
+      setUser(null);
+    }
+
+    // const res = await response.json();
+    // console.log(res)
+    // if(res.success) {
+    //   console.log('logout success');
+    // } else {
+    //   console.error('logout failed', res.message);
+    // }
+
+    // setUser(null);
   };
 
   useEffect(() => {

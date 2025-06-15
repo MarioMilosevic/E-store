@@ -3,7 +3,7 @@ function createSuccessResponse(
   message: string,
   data?: unknown
 ) {
-  return new Response(JSON.stringify({ message, data, success: true }), {
+  return new Response(JSON.stringify({ message, sucess: true, data }), {
     status,
     headers: {
       "Content-Type": "application/json",
@@ -18,8 +18,10 @@ const successFactory = {
   created: (data: unknown, message: string, status: number = 201) => {
     return createSuccessResponse(status, message, data);
   },
-  noContent: (message: string, status: number = 204) => {
-    return createSuccessResponse(status, message);
+  noContent: (status: number = 204) => {
+    return new Response(null, {
+      status,
+    });
   },
 };
 

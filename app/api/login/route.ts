@@ -1,8 +1,8 @@
 import { loginFormSchema } from "@/lib/zodSchemas";
 import { createSession } from "@/lib/session";
 import prisma from "@/prisma/prismaClient";
-import successFactory from "@/_services/success";
-import errorFactory from "@/_services/error";
+import successFactory from "@/services/success";
+import errorFactory from "@/services/error";
 
 export async function POST(req: Request) {
   const response = await req.json();

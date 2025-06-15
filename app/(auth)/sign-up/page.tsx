@@ -7,9 +7,8 @@ import { useForm } from "react-hook-form";
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { signUpFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
-import { signUpUser } from "@/actions/sign-up";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
   const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -22,6 +21,8 @@ export default function SignUpForm() {
       passwordConfirm: "",
     },
   });
+
+  const router = useRouter();
 
   const formFields: FormFieldObjType<z.infer<typeof signUpFormSchema>>[] = [
     {
@@ -53,14 +54,21 @@ export default function SignUpForm() {
   };
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    // const result = await signUpUser(values);
-    // if (result.status === "error") {
-    //   toast.error(result.message);
-    // } else {
-    //   toast.success(result.message);
-    //   redirect("/login");
-    // }
-    console.log('treba sign up')
+    const response = await fetch("/api/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      toast.success(result.message);
+      router.push("/login");
+    } else {
+      toast.error(result.message);
+    }
   }
 
   return (

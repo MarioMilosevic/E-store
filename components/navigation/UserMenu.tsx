@@ -14,11 +14,9 @@ export default function UserMenu() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const logOut = async () => {
-    console.log("log out clicked");
     const response = await fetch("/api/logout", {
       method: "DELETE",
     });
-    console.log(response);
 
     if (!response.ok) {
       toast.error("Logout failed. Please try again.");
@@ -26,16 +24,6 @@ export default function UserMenu() {
       toast.success("Logout successful");
       setUser(null);
     }
-
-    // const res = await response.json();
-    // console.log(res)
-    // if(res.success) {
-    //   console.log('logout success');
-    // } else {
-    //   console.error('logout failed', res.message);
-    // }
-
-    // setUser(null);
   };
 
   useEffect(() => {

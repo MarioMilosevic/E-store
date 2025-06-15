@@ -21,6 +21,5 @@ export async function getUser() {
     },
   });
   cachedUser = user as UserType;
-  console.log(cachedUser)
   return cachedUser;
 }

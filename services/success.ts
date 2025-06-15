@@ -3,7 +3,7 @@ function createSuccessResponse(
   message: string,
   data?: unknown
 ) {
-  return new Response(JSON.stringify({ message, sucess: true, data }), {
+  return new Response(JSON.stringify({ message, success: true, data }), {
     status,
     headers: {
       "Content-Type": "application/json",

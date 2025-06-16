@@ -16,6 +16,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
+import FileInput from "@/components/ui/FileInput";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
 
 export default function AddProduct() {
@@ -84,6 +85,7 @@ export default function AddProduct() {
                 );
               }}
             />
+            <FileInput />
           </form>
         </Form>
       </CardContent>

@@ -1,3 +1,8 @@
+import AddProduct from "@/components/addProduct/AddProduct";
 export default function page() {
-  return <div>Add product stranica</div>
+  return (
+    <main className="max-w-[1280px] mx-auto border border-black">
+      <AddProduct />
+    </main>
+  );
 }

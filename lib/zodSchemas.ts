@@ -63,9 +63,9 @@ export const addProductFormSchema = z.object({
       }),
     }
   ),
-  sellingType: z.enum(["auction", "fixed"], {
+  sellingMethod: z.enum(["auction", "fixed"], {
     errorMap: () => ({
-      message: "Selling type must be either auction or fixed",
+      message: "Selling method must be either auction or fixed",
     }),
   }),
   price: z

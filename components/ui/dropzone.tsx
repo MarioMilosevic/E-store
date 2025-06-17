@@ -68,7 +68,7 @@ const fileStatusReducer = <TUploadRes, TUploadError>(
     | ({
         type: "update-status";
         id: string;
-      } & DropzoneResult<TUploadRes, TUploadError>),
+      } & DropzoneResult<TUploadRes, TUploadError>)
 ): FileStatus<TUploadRes, TUploadError>[] => {
   switch (action.type) {
     case "add":
@@ -114,7 +114,7 @@ const getDropZoneErrorCodes = (fileRejections: FileRejection[]) => {
   const errors = fileRejections.map((rejection) => {
     return rejection.errors
       .filter((error) =>
-        dropZoneErrorCodes.includes(error.code as DropZoneErrorCode),
+        dropZoneErrorCodes.includes(error.code as DropZoneErrorCode)
       )
       .map((error) => error.code) as DropZoneErrorCode[];
   });
@@ -128,7 +128,7 @@ const getRootError = (
     maxSize?: number;
     minSize?: number;
     maxFiles?: number;
-  },
+  }
 ) => {
   const errors = errorCodes.map((error) => {
     switch (error) {
@@ -157,7 +157,7 @@ const getRootError = (
 
 type UseDropzoneProps<TUploadRes, TUploadError> = {
   onDropFile: (
-    file: File,
+    file: File
   ) => Promise<
     Exclude<DropzoneResult<TUploadRes, TUploadError>, { status: "pending" }>
   >;
@@ -200,7 +200,7 @@ interface UseDropzoneReturn<TUploadRes, TUploadError> {
 }
 
 const useDropzone = <TUploadRes, TUploadError = string>(
-  props: UseDropzoneProps<TUploadRes, TUploadError>,
+  props: UseDropzoneProps<TUploadRes, TUploadError>
 ): UseDropzoneReturn<TUploadRes, TUploadError> => {
   const {
     onDropFile: pOnDropFile,
@@ -228,7 +228,7 @@ const useDropzone = <TUploadRes, TUploadError = string>(
         pOnRootError(error);
       }
     },
-    [pOnRootError, _setRootError],
+    [pOnRootError, _setRootError]
   );
 
   const [fileStatuses, dispatch] = useReducer(fileStatusReducer, []);
@@ -280,7 +280,7 @@ const useDropzone = <TUploadRes, TUploadError = string>(
       pShapeUploadError,
       pOnFileUploadError,
       pOnFileUploaded,
-    ],
+    ]
   );
 
   const onRemoveFile = useCallback(
@@ -288,7 +288,7 @@ const useDropzone = <TUploadRes, TUploadError = string>(
       await pOnRemoveFile?.(id);
       dispatch({ type: "remove", id });
     },
-    [pOnRemoveFile],
+    [pOnRemoveFile]
   );
 
   const canRetry = useCallback(
@@ -299,7 +299,7 @@ const useDropzone = <TUploadRes, TUploadError = string>(
         fileStatus.tries < (maxRetryCount ?? Infinity)
       );
     },
-    [fileStatuses, maxRetryCount],
+    [fileStatuses, maxRetryCount]
   );
 
   const onRetry = useCallback(
@@ -314,7 +314,7 @@ const useDropzone = <TUploadRes, TUploadError = string>(
       }
       await _uploadFile(fileStatus.file, id);
     },
-    [canRetry, fileStatuses, _uploadFile],
+    [canRetry, fileStatuses, _uploadFile]
   );
 
   const getFileMessageId = (id: string) => `${inputId}-${id}-message`;
@@ -361,7 +361,7 @@ const useDropzone = <TUploadRes, TUploadError = string>(
     onDropRejected: (fileRejections) => {
       const errorMessage = getRootError(
         getDropZoneErrorCodes(fileRejections),
-        validation ?? {},
+        validation ?? {}
       );
       setRootError(errorMessage);
     },
@@ -386,8 +386,8 @@ const useDropzone = <TUploadRes, TUploadError = string>(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DropZoneContext = createContext<UseDropzoneReturn<any, any>>({
-  getRootProps: () => ({}) as never,
-  getInputProps: () => ({}) as never,
+  getRootProps: () => ({} as never),
+  getInputProps: () => ({} as never),
   onRemoveFile: async () => {},
   onRetry: async () => {},
   canRetry: () => false,
@@ -413,7 +413,7 @@ interface DropzoneProps<TUploadRes, TUploadError>
   children: React.ReactNode;
 }
 const Dropzone = <TUploadRes, TUploadError>(
-  props: DropzoneProps<TUploadRes, TUploadError>,
+  props: DropzoneProps<TUploadRes, TUploadError>
 ) => {
   const { children, ...rest } = props;
   return (
@@ -458,13 +458,13 @@ const DropZoneArea = forwardRef<HTMLDivElement, DropZoneAreaProps>(
           "flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           context.isDragActive && "animate-pulse bg-black/5",
           context.isInvalid && "border-destructive",
-          className,
+          className
         )}
       >
         {children}
       </div>
     );
-  },
+  }
 );
 DropZoneArea.displayName = "DropZoneArea";
 
@@ -535,7 +535,7 @@ const DropzoneFileList = forwardRef<HTMLOListElement, DropZoneFileListProps>(
         {props.children}
       </ol>
     );
-  },
+  }
 );
 DropzoneFileList.displayName = "DropzoneFileList";
 
@@ -559,7 +559,7 @@ const DropzoneFileListItem = forwardRef<
 
   const onRemoveFile = useCallback(
     () => cOnRemoveFile(fileId),
-    [fileId, cOnRemoveFile],
+    [fileId, cOnRemoveFile]
   );
   const onRetry = useCallback(() => cOnRetry(fileId), [fileId, cOnRetry]);
   const messageId = cGetFileMessageId(fileId);
@@ -582,7 +582,7 @@ const DropzoneFileListItem = forwardRef<
         aria-describedby={isInvalid ? messageId : undefined}
         className={cn(
           "flex flex-col justify-center gap-2 rounded-md bg-muted/40 px-4 py-2",
-          className,
+          className
         )}
       >
         {props.children}
@@ -603,7 +603,7 @@ const DropzoneFileMessage = forwardRef<
   const context = useDropzoneFileListContext();
   if (!context) {
     throw new Error(
-      "DropzoneFileMessage must be used within a DropzoneFileListItem",
+      "DropzoneFileMessage must be used within a DropzoneFileListItem"
     );
   }
 
@@ -618,7 +618,7 @@ const DropzoneFileMessage = forwardRef<
       {...rest}
       className={cn(
         "h-5 text-[0.8rem] font-medium text-destructive",
-        rest.className,
+        rest.className
       )}
     >
       {body}
@@ -645,13 +645,13 @@ const DropzoneMessage = forwardRef<HTMLParagraphElement, DropzoneMessageProps>(
         {...rest}
         className={cn(
           "h-5 text-[0.8rem] font-medium text-destructive",
-          rest.className,
+          rest.className
         )}
       >
         {body}
       </p>
     );
-  },
+  }
 );
 DropzoneMessage.displayName = "DropzoneMessage";
 
@@ -664,7 +664,7 @@ const DropzoneRemoveFile = forwardRef<
   const context = useDropzoneFileListContext();
   if (!context) {
     throw new Error(
-      "DropzoneRemoveFile must be used within a DropzoneFileListItem",
+      "DropzoneRemoveFile must be used within a DropzoneFileListItem"
     );
   }
   return (
@@ -676,7 +676,7 @@ const DropzoneRemoveFile = forwardRef<
       {...props}
       className={cn(
         "aria-disabled:pointer-events-none aria-disabled:opacity-50",
-        className,
+        className
       )}
     >
       {props.children}
@@ -694,7 +694,7 @@ const DropzoneRetryFile = forwardRef<HTMLButtonElement, DropzoneRetryFileProps>(
 
     if (!context) {
       throw new Error(
-        "DropzoneRetryFile must be used within a DropzoneFileListItem",
+        "DropzoneRetryFile must be used within a DropzoneFileListItem"
       );
     }
 
@@ -711,14 +711,14 @@ const DropzoneRetryFile = forwardRef<HTMLButtonElement, DropzoneRetryFileProps>(
         {...props}
         className={cn(
           "aria-disabled:pointer-events-none aria-disabled:opacity-50",
-          className,
+          className
         )}
       >
         {props.children}
         <span className="sr-only">Retry</span>
       </Button>
     );
-  },
+  }
 );
 DropzoneRetryFile.displayName = "DropzoneRetryFile";
 
@@ -739,7 +739,7 @@ const DropzoneTrigger = forwardRef<HTMLLabelElement, DropzoneTriggerProps>(
         fileStatuses
           .filter((file) => file.status === "error")
           .map((file) => getFileMessageId(file.id)),
-      [fileStatuses, getFileMessageId],
+      [fileStatuses, getFileMessageId]
     );
 
     return (
@@ -748,7 +748,7 @@ const DropzoneTrigger = forwardRef<HTMLLabelElement, DropzoneTriggerProps>(
         {...props}
         className={cn(
           "cursor-pointer rounded-sm bg-secondary px-4 py-2 font-medium ring-offset-background transition-colors focus-within:outline-none hover:bg-secondary/80 has-[input:focus-visible]:ring-2 has-[input:focus-visible]:ring-ring has-[input:focus-visible]:ring-offset-2",
-          className,
+          className
         )}
       >
         {children}
@@ -769,7 +769,7 @@ const DropzoneTrigger = forwardRef<HTMLLabelElement, DropzoneTriggerProps>(
         />
       </label>
     );
-  },
+  }
 );
 DropzoneTrigger.displayName = "DropzoneTrigger";
 
@@ -797,7 +797,7 @@ const InfiniteProgress = forwardRef<HTMLDivElement, InfiniteProgressProps>(
         {...props}
         className={cn(
           "relative h-2 w-full overflow-hidden rounded-full bg-muted",
-          className,
+          className
         )}
       >
         <div
@@ -805,12 +805,12 @@ const InfiniteProgress = forwardRef<HTMLDivElement, InfiniteProgressProps>(
           className={cn(
             "h-full w-full rounded-full bg-primary",
             done ? "translate-x-0" : "animate-infinite-progress",
-            error && "bg-destructive",
+            error && "bg-destructive"
           )}
         />
       </div>
     );
-  },
+  }
 );
 InfiniteProgress.displayName = "InfiniteProgress";
 

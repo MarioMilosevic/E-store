@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addProductFormSchema } from "@/lib/zodSchemas";
 import { z } from "zod";
-import { categories, conditions, locations } from "@/lib/constants";
+import { categories, conditions, locations, sellingMethods, shippingOptions } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   Form,
@@ -311,7 +311,9 @@ export default function AddProduct() {
                 render={({ field }) => {
                   return (
                     <FormItem className="flex flex-col">
-                      <FormLabel htmlFor="itemLocation">Item Location</FormLabel>
+                      <FormLabel htmlFor="itemLocation">
+                        Item Location
+                      </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -341,7 +343,10 @@ export default function AddProduct() {
                                     value={location.label}
                                     key={location.id}
                                     onSelect={() => {
-                                      form.setValue("itemLocation", location.id);
+                                      form.setValue(
+                                        "itemLocation",
+                                        location.id
+                                      );
                                     }}
                                   >
                                     <Check
@@ -369,7 +374,157 @@ export default function AddProduct() {
                 }}
               />
             </div>
+
+            <div className="flex justify-between">
             <FormField
+              key={"shippingCost"}
+              control={form.control}
+              name="shippingCost"
+              render={({ field }) => {
+                return (
+                  <FormItem className="flex flex-col">
+                    <FormLabel htmlFor="shippingCost">Shipping</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? shippingOptions.find(
+                                  (option) => option.id === field.value
+                                )?.label
+                              : "Select shipping option"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandList>
+                            <CommandGroup>
+                              {shippingOptions.map((option) => (
+                                <CommandItem
+                                  value={option.label}
+                                  key={option.id}
+                                  onSelect={() => {
+                                    form.setValue("shippingCost", option.id);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      option.id === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {option.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Select shipping option for the product
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            <FormField
+              key={"sellingMethod"}
+              control={form.control}
+              name="sellingMethod"
+              render={({ field }) => {
+                return (
+                  <FormItem className="flex flex-col">
+                    <FormLabel htmlFor="sellingMethod">Selling Method</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? sellingMethods.find(
+                                  (option) => option.id === field.value
+                                )?.label
+                              : "Select selling method"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandList>
+                            <CommandGroup>
+                              {sellingMethods.map((option) => (
+                                <CommandItem
+                                  value={option.label}
+                                  key={option.id}
+                                  onSelect={() => {
+                                    form.setValue("sellingMethod", option.id);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      option.id === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {option.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Select selling method for the product
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            <FormField
+              key={"price"}
+              control={form.control}
+              name="price"
+              render={({ field }) => {
+                return (
+                  <FormItem className="flex flex-col">
+                    <FormLabel htmlFor="price">Price</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter price" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the price for the product
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            </div>
+            {/* <FormField
               control={form.control}
               name="sellingMethod"
               render={({ field }) => (
@@ -416,48 +571,8 @@ export default function AddProduct() {
                   </FormItem>
                 )}
               />
-            )}
-            <FormField
-              control={form.control}
-              name="itemLocation"
-              render={({ field }) => (
-                <FormItem>
-                  <Select onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Item location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="any">Any</SelectItem>
-                      <SelectItem value="us only">US Only</SelectItem>
-                      <SelectItem value="north america">
-                        North America
-                      </SelectItem>
-                      <SelectItem value="europe">Europe</SelectItem>
-                      <SelectItem value="asia">Asia</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="shippingCost"
-              render={({ field }) => (
-                <FormItem>
-                  <Select onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Shipping cost" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="free">Free</SelectItem>
-                      <SelectItem value="fast">Fast</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            )} */}
+
             <FormSubmit
               type="submit"
               isSubmitting={form.formState.isSubmitting}

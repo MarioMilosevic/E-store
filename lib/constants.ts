@@ -44,6 +44,17 @@ export const locations = [
   { id: "asia", label: "Asia" },
 ];
 
+export const shippingOptions = [
+  { id: "free", label: "Free Shipping" },
+  { id: "flat-rate", label: "Flat Rate Shipping" },
+  { id: "calculated", label: "Calculated Shipping" },
+];
+
+export const sellingMethods = [
+  { id: "auction", label: "Auction" },
+  { id: "fixed", label: "Fixed Price" },
+];
+
 export const passwordMessage = {
   message: "Password must be at least 8 characters",
 };

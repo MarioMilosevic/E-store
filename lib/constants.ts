@@ -36,6 +36,14 @@ export const conditions = [
   { id: "refurbished", label: "Refurbished" },
 ];
 
+export const locations = [
+  { id: "any", label: "Any" },
+  { id: "us-only", label: "US Only" },
+  { id: "north-america", label: "North America" },
+  { id: "europe", label: "Europe" },
+  { id: "asia", label: "Asia" },
+];
+
 export const passwordMessage = {
   message: "Password must be at least 8 characters",
 };

@@ -2,11 +2,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addProductFormSchema } from "@/lib/zodSchemas";
-import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
-import { toast } from "sonner";
-import { categories, conditions } from "@/lib/constants";
-import { AutosizeTextarea } from "../ui/AutosizeTextarea";
+import { categories, conditions, locations } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   Form,
@@ -24,7 +21,6 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
-import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -51,9 +47,7 @@ import { Popover } from "../ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
@@ -181,149 +175,200 @@ export default function AddProduct() {
                 );
               }}
             />
-            <FormField
-              key={"condition"}
-              control={form.control}
-              name="condition"
-              render={({ field }) => {
-                console.log(field);
-                console.log(conditions);
-                return (
-                  <FormItem className="flex flex-col">
-                    <FormLabel htmlFor="condition">Condition</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? conditions.find(
-                                  (condition) => condition.id === field.value
-                                )?.label
-                              : "Select condition"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandList>
-                            <CommandGroup>
-                              {conditions.map((condition) => (
-                                <CommandItem
-                                  value={condition.label}
-                                  key={condition.id}
-                                  onSelect={() => {
-                                    form.setValue(
-                                      "condition",
-                                      condition.id
-                                    );
-                                  }}
-                                >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      condition.id === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                  {condition.label}
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription>In what condition is the product</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-            <FormField
-              key={"category"}
-              control={form.control}
-              name="category"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="electronics">Electronics</SelectItem>
-                        <SelectItem value="fashion">Fashion</SelectItem>
-                        <SelectItem value="home & garden">
-                          Home & Garden
-                        </SelectItem>
-                        <SelectItem value="toys">Toys</SelectItem>
-                        <SelectItem value="games">Games</SelectItem>
-                        <SelectItem value="books">Books</SelectItem>
-                        <SelectItem value="sneakers">Sneakers</SelectItem>
-                        <SelectItem value="watches & jewelry">
-                          Watches & Jewelry
-                        </SelectItem>
-                        <SelectItem value="art">Art</SelectItem>
-                        <SelectItem value="musical instruments">
-                          Musical Instruments
-                        </SelectItem>
-                        <SelectItem value="health & beauty">
-                          Health & Beauty
-                        </SelectItem>
-                        <SelectItem value="office & stationery">
-                          Office & Stationery
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-            {/* <FormField
-              key={"sellingMethod"}
-              control={form.control}
-              name="sellingMethod"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Selling method" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="auction">Auction</SelectItem>
-                        <SelectItem value="fixed">Fixed</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {field.value === "auction" && (
-                      <FormItem>
-                      <FloatingLabelInput id="auction" field={field}>
-                        Starting Price
-                      </FloatingLabelInput>
-                      </FormItem>
-                    )}
-                    {field.value === "fixed" && (
-                      <FormItem>
-                        <FloatingLabelInput id="fixed" field={field}>
-                          Fixed Price
-                        </FloatingLabelInput>
-                      </FormItem>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            /> */}
+            <div className="flex justify-between">
+              <FormField
+                key={"condition"}
+                control={form.control}
+                name="condition"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel htmlFor="condition">Condition</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[200px] justify-between",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? conditions.find(
+                                    (condition) => condition.id === field.value
+                                  )?.label
+                                : "Select condition"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                          <Command>
+                            <CommandList>
+                              <CommandGroup>
+                                {conditions.map((condition) => (
+                                  <CommandItem
+                                    value={condition.label}
+                                    key={condition.id}
+                                    onSelect={() => {
+                                      form.setValue("condition", condition.id);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        condition.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {condition.label}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription>
+                        In what condition is the product
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <FormField
+                key={"category"}
+                control={form.control}
+                name="category"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel htmlFor="category">Category</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[200px] justify-between",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? categories.find(
+                                    (category) => category.id === field.value
+                                  )?.label
+                                : "Select category"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                          <Command>
+                            <CommandList>
+                              <CommandGroup>
+                                {categories.map((category) => (
+                                  <CommandItem
+                                    value={category.label}
+                                    key={category.id}
+                                    onSelect={() => {
+                                      form.setValue("category", category.id);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        category.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {category.label}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription>
+                        Select category of the product
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <FormField
+                key={"itemLocation"}
+                control={form.control}
+                name="itemLocation"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col">
+                      <FormLabel htmlFor="itemLocation">Item Location</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[200px] justify-between",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? locations.find(
+                                    (location) => location.id === field.value
+                                  )?.label
+                                : "Select location"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                          <Command>
+                            <CommandList>
+                              <CommandGroup>
+                                {locations.map((location) => (
+                                  <CommandItem
+                                    value={location.label}
+                                    key={location.id}
+                                    onSelect={() => {
+                                      form.setValue("itemLocation", location.id);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        location.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {location.label}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription>
+                        Select location of the product
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+            </div>
             <FormField
               control={form.control}
               name="sellingMethod"

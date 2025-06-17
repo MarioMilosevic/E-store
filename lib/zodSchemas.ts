@@ -36,9 +36,9 @@ export const addProductFormSchema = z.object({
     .refine((value) => value.startsWith("http"), {
       message: "Image URL must start with http or https",
     }),
-  condition: z.enum(["any", "new", "used"], {
+  condition: z.enum(["new", "used", "refurbished"], {
     errorMap: () => ({
-      message: "Condition must be one of: any, new or used",
+      message: "Condition must be one of: new, used or refurbished",
     }),
   }),
   category: z.enum(

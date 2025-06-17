@@ -5,9 +5,14 @@ import { addProductFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
 import { toast } from "sonner";
-import { TypographyH3 } from "@/typography/h3";
 import { AutosizeTextarea } from "../ui/AutosizeTextarea";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Card,
   CardDescription,
@@ -16,8 +21,16 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import FileInput from "@/components/ui/FileInput";
 import FloatingLabelInput from "@/components/ui/FloatingLabelInput";
+import { Button } from "@/components/ui/button";
 
 export default function AddProduct() {
   const form = useForm<z.infer<typeof addProductFormSchema>>({
@@ -26,7 +39,7 @@ export default function AddProduct() {
       title: "",
       description: "",
       image: "",
-      condition: "any",
+      condition: "new",
       category: "electronics",
       itemLocation: "any",
       price: 0,
@@ -86,10 +99,32 @@ export default function AddProduct() {
               }}
             />
             <FileInput />
+            <FormField
+              key={"condition"}
+              control={form.control}
+              name="condition"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Condition</FormLabel>
+                    <Select defaultValue={field.value }>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select condition" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="new">New</SelectItem>
+                        <SelectItem value="used">Used</SelectItem>
+                        <SelectItem value="refurbished">Refurbished</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
           </form>
         </Form>
       </CardContent>
-      {/* <TypographyH3>Add Product</TypographyH3> */}
     </Card>
   );
 }

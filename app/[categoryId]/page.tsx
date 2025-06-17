@@ -9,7 +9,6 @@ export default async function page({
 }) {
   const { categoryId } = await params;
   console.log(categoryId);
-  console.log(categories);
   if (categories.findIndex((category) => category.id === categoryId)) {
     notFound();
   }

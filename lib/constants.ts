@@ -30,6 +30,12 @@ export const categories = [
   { imageSrc: office, id: "office-stationery", label: "Office & Stationery" },
 ];
 
+export const conditions = [
+  { id: "new", label: "New" },
+  { id: "used", label: "Used" },
+  { id: "refurbished", label: "Refurbished" },
+];
+
 export const passwordMessage = {
   message: "Password must be at least 8 characters",
 };

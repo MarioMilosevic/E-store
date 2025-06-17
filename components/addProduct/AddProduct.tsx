@@ -5,10 +5,13 @@ import { addProductFormSchema } from "@/lib/zodSchemas";
 import { FormFieldObjType } from "@/lib/globalTypes";
 import { z } from "zod";
 import { toast } from "sonner";
+import { categories, conditions } from "@/lib/constants";
 import { AutosizeTextarea } from "../ui/AutosizeTextarea";
+import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -43,7 +46,17 @@ import {
   FileUploaderContent,
   FileUploaderItem,
 } from "../ui/file-upload";
-import { CloudUpload, Paperclip } from "lucide-react";
+import { Check, ChevronsUpDown, CloudUpload, Paperclip } from "lucide-react";
+import { Popover } from "../ui/popover";
+import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 export default function AddProduct() {
   const [images, setImages] = useState<File[] | null>(null);
@@ -173,18 +186,63 @@ export default function AddProduct() {
               control={form.control}
               name="condition"
               render={({ field }) => {
+                console.log(field);
+                console.log(conditions);
                 return (
-                  <FormItem>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Condition" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="new">New</SelectItem>
-                        <SelectItem value="used">Used</SelectItem>
-                        <SelectItem value="refurbished">Refurbished</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <FormItem className="flex flex-col">
+                    <FormLabel htmlFor="condition">Condition</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? conditions.find(
+                                  (condition) => condition.id === field.value
+                                )?.label
+                              : "Select condition"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandList>
+                            <CommandGroup>
+                              {conditions.map((condition) => (
+                                <CommandItem
+                                  value={condition.label}
+                                  key={condition.id}
+                                  onSelect={() => {
+                                    form.setValue(
+                                      "condition",
+                                      condition.id
+                                    );
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      condition.id === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {condition.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>In what condition is the product</FormDescription>
                     <FormMessage />
                   </FormItem>
                 );

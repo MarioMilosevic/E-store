@@ -5,3 +5,20 @@ export type FormFieldObjType<T extends FieldValues> = {
   content: string;
   type: string;
 };
+
+export type formFieldsObjectsType = {
+  id: string;
+  name:
+    | "condition"
+    | "category"
+    | "itemLocation"
+    | "shippingCost"
+    | "sellingMethod";
+  label: string;
+  initialLabel: string;
+  options: {
+    label: string;
+    id: string;
+  }[];
+};
+

@@ -10,6 +10,9 @@ import art from "../public/categories/art.jpg";
 import musicalInstruments from "../public/categories/musicalInstruments.jpg";
 import beauty from "../public/categories/beauty.jpg";
 import office from "../public/categories/office.jpeg";
+import {
+  formFieldsObjectsType,
+} from "./globalTypes";
 
 export const categories = [
   { imageSrc: electronics, id: "electronics", label: "Electronics" },
@@ -58,7 +61,7 @@ export const passwordMessage = {
   message: "Password must be at least 8 characters",
 };
 
-export const MAX_FILE_SIZE = 5  * 1024 * 1024 
+export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -68,28 +71,17 @@ export const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-type formFieldsObjectsType = {
-  id: string;
-  name: string;
-  label: string;
-  initialLabel: string;
-  options: {
-    label: string;
-    id: string;
-  }[];
-}
-
 export const formFieldObjects: formFieldsObjectsType[] = [
   {
     id: "condition",
-    name: "Condition",
+    name: "condition",
     label: "Condition",
     options: conditions,
     initialLabel: "Select condition",
   },
   {
     id: "category",
-    name: "Category",
+    name: "category",
     label: "Category",
     options: categories,
     initialLabel: "Select category",

@@ -74,10 +74,10 @@ export const addProductFormSchema = z.object({
       message: "Selling method must be either auction or fixed",
     }),
   }),
-  price: z
+  price: z.coerce
     .number()
     .min(0, "Price must be a positive number")
-    .max(10000, "Price must be at most 10,000,0"),
+    .max(10000, "Price must be at most 10,000"),
   itemLocation: z.enum(["any", "us only", "north america", "europe", "asia"], {
     errorMap: () => ({
       message:

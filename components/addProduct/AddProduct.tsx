@@ -3,15 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addProductFormSchema } from "@/lib/zodSchemas";
 import { z } from "zod";
-import {
-  categories,
-  conditions,
-  locations,
-  sellingMethods,
-  shippingOptions,
-  MAX_FILE_SIZE,
-  formFieldObjects,
-} from "@/lib/constants";
+import { MAX_FILE_SIZE, formFieldObjects } from "@/lib/constants";
 import { cn } from "@/lib/helpers";
 import {
   Form,
@@ -73,8 +65,17 @@ export default function AddProduct() {
     multiple: true,
   };
 
-  function onSubmit(values: z.infer<typeof addProductFormSchema>) {
+ async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
     console.log(values);
+   const response = await fetch("/api/add-product", {
+     method: "POST",
+     headers: {
+       "Content-Type":"application/json"
+     },
+     body:JSON.stringify(values)
+   }) 
+    const result = await response.json()
+   console.log("ovo klijent dobije",result)
   }
 
   return (
@@ -217,9 +218,8 @@ export default function AddProduct() {
                                       value={option.label}
                                       key={option.id}
                                       onSelect={() => {
-                                        console.log(option.id);
-                                        // ovo moram pogledat condition
-                                        form.setValue("condition", option.id);
+                                        console.log(objField.id);
+                                        form.setValue(objField.name, option.id as typeof field.value);
                                       }}
                                     >
                                       <Check
@@ -252,7 +252,7 @@ export default function AddProduct() {
                     <FormItem className="flex flex-col w-[200px]">
                       <FormLabel htmlFor="price">Price</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter price" {...field} />
+                        <Input placeholder="Enter price" {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -260,342 +260,6 @@ export default function AddProduct() {
                 }}
               />
             </div>
-
-            {/* <div className="flex justify-between">
-              <FormField
-                key={"condition"}
-                control={form.control}
-                name="condition"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="condition">Condition</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? conditions.find(
-                                    (condition) => condition.id === field.value
-                                  )?.label
-                                : "Select condition"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandList>
-                              <CommandGroup>
-                                {conditions.map((condition) => (
-                                  <CommandItem
-                                    value={condition.label}
-                                    key={condition.id}
-                                    onSelect={() => {
-                                      form.setValue("condition", condition.id);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        condition.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {condition.label}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-              <FormField
-                key="category"
-                control={form.control}
-                name="category"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="category">Category</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? categories.find(
-                                    (category) => category.id === field.value
-                                  )?.label
-                                : "Select category"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandList>
-                              <CommandGroup>
-                                {categories.map((category) => (
-                                  <CommandItem
-                                    value={category.label}
-                                    key={category.id}
-                                    onSelect={() => {
-                                      form.setValue("category", category.id);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        category.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {category.label}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-              <FormField
-                key={"itemLocation"}
-                control={form.control}
-                name="itemLocation"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="itemLocation">
-                        Item Location
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? locations.find(
-                                    (location) => location.id === field.value
-                                  )?.label
-                                : "Select location"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandList>
-                              <CommandGroup>
-                                {locations.map((location) => (
-                                  <CommandItem
-                                    value={location.label}
-                                    key={location.id}
-                                    onSelect={() => {
-                                      form.setValue(
-                                        "itemLocation",
-                                        location.id
-                                      );
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        location.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {location.label}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-            </div>
-
-            <div className="flex justify-between">
-              <FormField
-                key={"shippingCost"}
-                control={form.control}
-                name="shippingCost"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="shippingCost">
-                        Shipping Option
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? shippingOptions.find(
-                                    (option) => option.id === field.value
-                                  )?.label
-                                : "Select shipping option"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandList>
-                              <CommandGroup>
-                                {shippingOptions.map((option) => (
-                                  <CommandItem
-                                    value={option.label}
-                                    key={option.id}
-                                    onSelect={() => {
-                                      form.setValue("shippingCost", option.id);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        option.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {option.label}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-              <FormField
-                key={"sellingMethod"}
-                control={form.control}
-                name="sellingMethod"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="sellingMethod">
-                        Selling Method
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? sellingMethods.find(
-                                    (option) => option.id === field.value
-                                  )?.label
-                                : "Select selling method"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandList>
-                              <CommandGroup>
-                                {sellingMethods.map((option) => (
-                                  <CommandItem
-                                    value={option.label}
-                                    key={option.id}
-                                    onSelect={() => {
-                                      form.setValue("sellingMethod", option.id);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        option.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {option.label}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              /> */}
-            {/* <FormField
-                key={"price"}
-                control={form.control}
-                name="price"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="price">Price</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter price" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-            </div> */}
             <FormSubmit
               type="submit"
               isSubmitting={form.formState.isSubmitting}

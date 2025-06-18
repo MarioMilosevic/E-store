@@ -81,12 +81,12 @@ export const addProductFormSchema = z.object({
   itemLocation: z.enum(["any", "us only", "north america", "europe", "asia"], {
     errorMap: () => ({
       message:
-        "Item location must be one of: any, us only, north america, europe, asia",
+        "Item location must be one of: any, us-only, north-america, europe, asia",
     }),
   }),
-  shippingCost: z.enum(["free", "fast"], {
+  shippingCost: z.enum(["free", "express"], {
     errorMap: () => ({
-      message: "Shipping cost must be either free or fast",
+      message: "Shipping cost must be either free or express",
     }),
   }),
 });

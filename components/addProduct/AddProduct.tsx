@@ -10,8 +10,9 @@ import {
   sellingMethods,
   shippingOptions,
   MAX_FILE_SIZE,
+  formFieldObjects,
 } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/helpers";
 import {
   Form,
   FormControl,
@@ -174,7 +175,93 @@ export default function AddProduct() {
                 );
               }}
             />
-            <div className="flex justify-between">
+
+            <div className="flex flex-wrap justify-between gap-6">
+              {formFieldObjects.map((objField) => (
+                <FormField
+                  key={objField.id}
+                  control={form.control}
+                  name={objField.name}
+                  render={({ field }) => {
+                    return (
+                      <FormItem className="flex flex-col">
+                        <FormLabel htmlFor={objField.id}>
+                          {objField.label}
+                        </FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-[200px] justify-between",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value
+                                  ? objField.options.find(
+                                      (option) => option.id === field.value
+                                    )?.label
+                                  : objField.initialLabel}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                              <CommandList>
+                                <CommandGroup>
+                                  {objField.options.map((option) => (
+                                    <CommandItem
+                                      value={option.label}
+                                      key={option.id}
+                                      onSelect={() => {
+                                        console.log(option.id);
+                                        // ovo moram pogledat condition
+                                        form.setValue("condition", option.id);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          option.id === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {option.label}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+              <FormField
+                key={"price"}
+                control={form.control}
+                name="price"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-col w-[200px]">
+                      <FormLabel htmlFor="price">Price</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter price" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+            </div>
+
+            {/* <div className="flex justify-between">
               <FormField
                 key={"condition"}
                 control={form.control}
@@ -231,16 +318,13 @@ export default function AddProduct() {
                           </Command>
                         </PopoverContent>
                       </Popover>
-                      {/* <FormDescription>
-                        In what condition is the product
-                      </FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   );
                 }}
               />
               <FormField
-                key={"category"}
+                key="category"
                 control={form.control}
                 name="category"
                 render={({ field }) => {
@@ -376,7 +460,9 @@ export default function AddProduct() {
                 render={({ field }) => {
                   return (
                     <FormItem className="flex flex-col w-[200px]">
-                      <FormLabel htmlFor="shippingCost">Shipping</FormLabel>
+                      <FormLabel htmlFor="shippingCost">
+                        Shipping Option
+                      </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -492,8 +578,8 @@ export default function AddProduct() {
                     </FormItem>
                   );
                 }}
-              />
-              <FormField
+              /> */}
+            {/* <FormField
                 key={"price"}
                 control={form.control}
                 name="price"
@@ -509,56 +595,7 @@ export default function AddProduct() {
                   );
                 }}
               />
-            </div>
-            {/* <FormField
-              control={form.control}
-              name="sellingMethod"
-              render={({ field }) => (
-                <FormItem>
-                  <Select onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selling method" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="auction">Auction</SelectItem>
-                      <SelectItem value="fixed">Fixed</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.watch("sellingMethod") === "auction" && (
-              <FormField
-                control={form.control}
-                name="auctionPrice"
-                render={({ field }) => (
-                  <FormItem>
-                    <FloatingLabelInput id="auction" field={field}>
-                      Starting Price
-                    </FloatingLabelInput>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            {form.watch("sellingMethod") === "fixed" && (
-              <FormField
-                control={form.control}
-                name="fixedPrice"
-                render={({ field }) => (
-                  <FormItem>
-                    <FloatingLabelInput id="fixed" field={field}>
-                      Fixed Price
-                    </FloatingLabelInput>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )} */}
-
+            </div> */}
             <FormSubmit
               type="submit"
               isSubmitting={form.formState.isSubmitting}

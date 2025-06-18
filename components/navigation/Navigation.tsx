@@ -11,8 +11,8 @@ export default function Navigation() {
         <Image
           src={logo}
           alt="logo"
-          width={150}
-          className="h-[50px] object-cover cursor-pointer"
+          className="h-[50px] w-[150px] object-cover cursor-pointer"
+          priority
         />
       </Link>
       <UserMenu />

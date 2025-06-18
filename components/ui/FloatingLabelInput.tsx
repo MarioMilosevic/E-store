@@ -1,5 +1,5 @@
 import { FloatingInput, FloatingLabel } from "./floating-label-input";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/helpers";
 
 type FloatingLabelInputProps = {
   className?: string;

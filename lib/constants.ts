@@ -46,8 +46,7 @@ export const locations = [
 
 export const shippingOptions = [
   { id: "free", label: "Free Shipping" },
-  { id: "flat-rate", label: "Flat Rate Shipping" },
-  { id: "calculated", label: "Calculated Shipping" },
+  { id: "express", label: "Express Shipping" },
 ];
 
 export const sellingMethods = [
@@ -60,10 +59,60 @@ export const passwordMessage = {
 };
 
 export const MAX_FILE_SIZE = 5  * 1024 * 1024 
+
 export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/png",
   "image/jpg",
   "image/gif",
   "image/webp",
+];
+
+type formFieldsObjectsType = {
+  id: string;
+  name: string;
+  label: string;
+  initialLabel: string;
+  options: {
+    label: string;
+    id: string;
+  }[];
+}
+
+export const formFieldObjects: formFieldsObjectsType[] = [
+  {
+    id: "condition",
+    name: "Condition",
+    label: "Condition",
+    options: conditions,
+    initialLabel: "Select condition",
+  },
+  {
+    id: "category",
+    name: "Category",
+    label: "Category",
+    options: categories,
+    initialLabel: "Select category",
+  },
+  {
+    id: "itemLocation",
+    name: "itemLocation",
+    label: "Item Location",
+    options: locations,
+    initialLabel: "Select location",
+  },
+  {
+    id: "shippingCost",
+    name: "shippingCost",
+    label: "Shipping Option",
+    options: shippingOptions,
+    initialLabel: "Select shipping option",
+  },
+  {
+    id: "sellingMethod",
+    name: "sellingMethod",
+    label: "Selling Method",
+    options: sellingMethods,
+    initialLabel: "Select selling method",
+  },
 ];

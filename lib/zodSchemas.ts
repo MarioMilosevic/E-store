@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { passwordMessage } from "@/lib/constants";
 
+import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "@/lib/constants";
+
 export const loginFormSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().trim().min(8),
@@ -31,11 +33,15 @@ export const addProductFormSchema = z.object({
     .min(10, "Description must be at least 10 characters long")
     .max(500, "Description must be at most 500 characters long"),
   image: z
-    .string()
-    .url("Image must be a valid URL")
-    .refine((value) => value.startsWith("http"), {
-      message: "Image URL must start with http or https",
-    }),
+    .any()
+    .refine(
+      (files) => files[0]?.size <= MAX_FILE_SIZE,
+      "Max image size is 5MB."
+    )
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      "Only .jpg, .jpeg, .png, .webp, and .gif formats are supported."
+    ),
   condition: z.enum(["new", "used", "refurbished"], {
     errorMap: () => ({
       message: "Condition must be one of: new, used or refurbished",

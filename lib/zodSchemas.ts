@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { passwordMessage } from "@/lib/constants";
+import {
+  passwordMessage,
+  categories,
+  locations,
+  sellingMethods,
+  shippingOptions,
+} from "@/lib/constants";
 
 import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "@/lib/constants";
 
@@ -48,46 +54,42 @@ export const addProductFormSchema = z.object({
     }),
   }),
   category: z.enum(
-    [
-      "electronics",
-      "fashion",
-      "home & garden",
-      "toys",
-      "games",
-      "books",
-      "sneakers",
-      "watches & jewelry",
-      "art",
-      "musical instruments",
-      "health & beauty",
-      "office & stationery",
-    ],
+    categories.map((category) => category.id) as [string, ...string[]],
     {
       errorMap: () => ({
-        message:
-          "Category must be one of: electronics, fashion, home & garden, toys, games, books, sneakers, watches & jewelry, art, musical instruments, health & beauty, office & stationery",
+        message: `Category must be one of: ${categories
+          .map((category) => category.label)
+          .join(", ")}`,
       }),
     }
   ),
-  sellingMethod: z.enum(["auction", "fixed"], {
-    errorMap: () => ({
-      message: "Selling method must be either auction or fixed",
-    }),
-  }),
+  sellingMethod: z.enum(
+    sellingMethods.map((method) => method.id) as [string, ...string[]],
+    {
+      errorMap: () => ({
+        message: `Selling method must be either ${sellingMethods.join(", ")}`,
+      }),
+    }
+  ),
   price: z.coerce
     .number()
     .min(0, "Price must be a positive number")
     .max(10000, "Price must be at most 10,000"),
-  itemLocation: z.enum(["any", "us only", "north america", "europe", "asia"], {
-    errorMap: () => ({
-      message:
-        "Item location must be one of: any, us-only, north-america, europe, asia",
-    }),
-  }),
-  shippingCost: z.enum(["free", "express"], {
-    errorMap: () => ({
-      message: "Shipping cost must be either free or express",
-    }),
-  }),
+  itemLocation: z.enum(
+    locations.map((location) => location.id) as [string, ...string[]],
+    {
+      errorMap: () => ({
+        message: `Item location must be one of: ${locations.join(", ")}`,
+      }),
+    }
+  ),
+  shippingCost: z.enum(
+    shippingOptions.map((option) => option.id) as [string, ...string[]],
+    {
+      errorMap: () => ({
+        message: `Shipping cost must be either ${shippingOptions.join(" or ")}`,
+      }),
+    }
+  ),
 });
 export const addProductFormSchemaWithImage = addProductFormSchema.extend({});

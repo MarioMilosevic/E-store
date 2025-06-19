@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addProductFormSchema } from "@/lib/zodSchemas";
 import { z } from "zod";
-import { MAX_FILE_SIZE, formFieldObjects } from "@/lib/constants";
+import { formFieldObjects } from "@/lib/constants";
 import { cn } from "@/lib/helpers";
 import {
   Form,
@@ -21,10 +21,11 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import FormSubmit from "../auth/FormSubmit";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import FormSubmit from "@/components/auth/FormSubmit";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { dropZoneConfig } from "@/lib/constants";
 import {
   FileUploader,
   FileInput,
@@ -46,24 +47,20 @@ export default function AddProduct() {
 
   const form = useForm<z.infer<typeof addProductFormSchema>>({
     resolver: zodResolver(addProductFormSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      image: "",
-      condition: "new",
-      category: "electronics",
-      itemLocation: "any",
-      price: 0,
-      sellingMethod: "auction",
-      shippingCost: "free",
-    },
+    // defaultValues: {
+    //   title: "Samsung galaxy s22 ultra",
+    //   description: "Ovo je veoma dobar telefon koji imam vec skoro 4 godine i htio bih da ga prodam",
+    //   image: "",
+    //   condition: "new",
+    //   category: "electronics",
+    //   itemLocation: "any",
+    //   price: 0,
+    //   sellingMethod: "auction",
+    //   shippingCost: "free",
+    // },
   });
 
-  const dropZoneConfig = {
-    maxFiles: 3,
-    maxSize: MAX_FILE_SIZE,
-    multiple: true,
-  };
+ 
 
  async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
     console.log(values);

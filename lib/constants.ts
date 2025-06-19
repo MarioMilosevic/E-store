@@ -17,7 +17,7 @@ import {
 export const categories = [
   { imageSrc: electronics, id: "electronics", label: "Electronics" },
   { imageSrc: fashion, id: "fashion", label: "Fashion" },
-  { imageSrc: homeGarden, id: "home-garden", label: "Home & Garden" },
+  { imageSrc: homeGarden, id: "home & garden", label: "Home & Garden" },
   { imageSrc: toys, id: "toys", label: "Toys" },
   { imageSrc: games, id: "games", label: "Games" },
   { imageSrc: books, id: "books", label: "Books" },
@@ -108,3 +108,9 @@ export const formFieldObjects: formFieldsObjectsType[] = [
     initialLabel: "Select selling method",
   },
 ];
+
+export const dropZoneConfig = {
+    maxFiles: 3,
+    maxSize: MAX_FILE_SIZE,
+    multiple: true,
+  };

@@ -27,3 +27,55 @@ enum Role {
   USER
   ADMIN
 }
+
+model Product {
+  id String @id @default(uuid())
+  title String
+  description String
+  price Float
+  createdAt DateTime @default(now())
+  categoryId Int
+  category Category @relation(fields:[categoryId], references: [id])
+  conditionId Int 
+  condition Condition @relation(fields: [conditionId], references: [id])
+  locationId Int
+  location Location @relation(fields:[locationId], references: [id])
+  sellingMethodId Int
+  sellingMethod SellingMethod @relation(fields: [sellingMethodId], references: [id])
+  shippingCostId Int
+  shippingCost ShippingCost @relation(fields: [shippingCostId], references: [id])
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  products Product[]
+}
+
+model Condition {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Location {
+  id       Int       @id @default(autoincrement())
+  city     String
+  country  String
+  products Product[]
+}
+
+
+model SellingMethod {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
+}
+
+model ShippingCost {
+  id       Int       @id @default(autoincrement())
+  type     String     // "Free", "Flat Rate", etc.
+  amount   Float?
+  products Product[]
+}
+

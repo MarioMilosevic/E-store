@@ -6,13 +6,11 @@ import { uploadImage } from "@/lib/cloudinary";
 
 export async function POST(req: Request) {
   const response = await req.json();
-  console.log("sta je ovo", response);
   const result = serverAddProductSchema.safeParse(response);
 
   if (!result.success) {
     return errorFactory.badRequest("Invalid input data");
   }
-  console.log("proslo validaciju", result.data);
 
   const {
     images,
@@ -26,8 +24,6 @@ export async function POST(req: Request) {
     title,
   } = result.data;
   const { seller } = response;
-
-  console.log("ovo bi trebao biti seller id", seller);
 
   const newProduct = await prisma.product.create({
     data: {
@@ -43,7 +39,9 @@ export async function POST(req: Request) {
     },
   });
 
-  console.log("ovo me zanima", newProduct);
+  if (!newProduct) {
+    return errorFactory.badRequest("Something went wrong please try again");
+  }
 
   const imageUrls: string[] = [];
 
@@ -53,21 +51,21 @@ export async function POST(req: Request) {
       imageUrls.push(uploaded);
     }
   } catch (error) {
-    console.log("ovo je error,", error);
+    console.error(error)
     return errorFactory.internalServerError("Image upload failed");
   }
 
-  await prisma.product.update({
+  const updatedProduct = await prisma.product.update({
     where: { id: newProduct.id },
     data: {
       images: {
         create: imageUrls.map((url) => ({ imageUrl: url })),
       },
     },
+    include: {
+      images: true,
+    },
   });
 
-  ////////////////////////////////////////////////////////////////////////////////////////
-
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  return successFactory.ok(newProduct, "Product created successfully");
+  return successFactory.ok(updatedProduct, "Product created successfully");
 }

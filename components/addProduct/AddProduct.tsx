@@ -42,6 +42,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { toast } from "sonner";
 
 export default function AddProduct() {
   const [images, setImages] = useState<File[] | null>(null);
@@ -85,7 +86,13 @@ export default function AddProduct() {
       }),
     });
     const result = await response.json();
-    console.log("ovo klijent dobije", result);
+    if (result.success) {
+      toast.success(result.message);
+      form.reset()
+      setImages(null)
+    } else {
+      toast.error(result.message);
+    }
   }
 
   return (

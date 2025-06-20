@@ -73,7 +73,7 @@ export const addProductFormSchema = z.object({
   ),
   price: z.coerce
     .number()
-    .min(0, "Price must be a positive number")
+    .min(1, "Price must be a positive number")
     .max(10000, "Price must be at most 10,000"),
   itemLocation: z.enum(
     locations.map((location) => location.id) as [string, ...string[]],

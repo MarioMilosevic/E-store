@@ -5,6 +5,7 @@ import { addProductFormSchema } from "@/lib/zodSchemas";
 import { z } from "zod";
 import { formFieldObjects } from "@/lib/constants";
 import { cn } from "@/lib/helpers";
+import { uploadImage } from "@/lib/cloudinary";
 import {
   Form,
   FormControl,
@@ -47,32 +48,30 @@ export default function AddProduct() {
 
   const form = useForm<z.infer<typeof addProductFormSchema>>({
     resolver: zodResolver(addProductFormSchema),
-    // defaultValues: {
-    //   title: "Samsung galaxy s22 ultra",
-    //   description: "Ovo je veoma dobar telefon koji imam vec skoro 4 godine i htio bih da ga prodam",
-    //   image: "",
-    //   condition: "new",
-    //   category: "electronics",
-    //   itemLocation: "any",
-    //   price: 0,
-    //   sellingMethod: "auction",
-    //   shippingCost: "free",
-    // },
+    defaultValues: {
+      title: "",
+      description: "",
+      image: "",
+      condition: "new",
+      category: "electronics",
+      itemLocation: "any",
+      price: 0,
+      sellingMethod: "auction",
+      shippingCost: "free",
+    },
   });
 
- 
-
- async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
+  async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
     console.log(values);
-   const response = await fetch("/api/add-product", {
-     method: "POST",
-     headers: {
-       "Content-Type":"application/json"
-     },
-     body:JSON.stringify(values)
-   }) 
-    const result = await response.json()
-   console.log("ovo klijent dobije",result)
+    const response = await fetch("/api/add-product", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const result = await response.json();
+    console.log("ovo klijent dobije", result);
   }
 
   return (
@@ -215,8 +214,10 @@ export default function AddProduct() {
                                       value={option.label}
                                       key={option.id}
                                       onSelect={() => {
-                                        console.log(objField.id);
-                                        form.setValue(objField.name, option.id as typeof field.value);
+                                        form.setValue(
+                                          objField.name,
+                                          option.id as typeof field.value
+                                        );
                                       }}
                                     >
                                       <Check
@@ -249,7 +250,11 @@ export default function AddProduct() {
                     <FormItem className="flex flex-col w-[200px]">
                       <FormLabel htmlFor="price">Price</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter price" {...field} type="number" />
+                        <Input
+                          placeholder="Enter price"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

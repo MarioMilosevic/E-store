@@ -18,14 +18,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(image:File) {
-  const imageData = await image.arrayBuffer();
-  const mime = image.type;
-  const encoding = "base64";
-  const base64Data = Buffer.from(imageData).toString("base64");
-  const fileUri = "data:" + mime + ";" + encoding + "," + base64Data;
-  const result = await cloudinary.uploader.upload(fileUri, {
-    folder: "nextjs-course-mutations",
-  });
-  return result.secure_url;
+export async function uploadImage(filePath: string) {
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder:"e-store",
+  })
+  return result.secure_url
+  // const imageData = await image.arrayBuffer();
+  // const mime = image.type;
+  // const encoding = "base64";
+  // const base64Data = Buffer.from(imageData).toString("base64");
+  // const fileUri = "data:" + mime + ";" + encoding + "," + base64Data;
+  // const result = await cloudinary.uploader.upload(fileUri, {
+  //   folder: "nextjs-course-mutations",
+  // });
+  // return result.secure_url;
 }

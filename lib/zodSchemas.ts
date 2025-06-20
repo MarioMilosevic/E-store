@@ -93,3 +93,8 @@ export const addProductFormSchema = z.object({
   ),
 });
 export const addProductFormSchemaWithImage = addProductFormSchema.extend({});
+
+// export const serverImageSchema = z.object({
+//   path: z.string(),
+//   relativePath:z.string()
+// })

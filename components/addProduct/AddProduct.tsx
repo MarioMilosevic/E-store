@@ -5,7 +5,6 @@ import { addProductFormSchema } from "@/lib/zodSchemas";
 import { z } from "zod";
 import { formFieldObjects } from "@/lib/constants";
 import { cn } from "@/lib/helpers";
-import { uploadImage } from "@/lib/cloudinary";
 import {
   Form,
   FormControl,
@@ -62,13 +61,31 @@ export default function AddProduct() {
   });
 
   async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
+    // const imageFiles = [];
+    // if (images && images.length > 0) {
+    //   images.map(async (image) => {
+    //     const arrayBuffer = await image.arrayBuffer();
+    //     const base64 = Buffer.from(arrayBuffer).toString("base64");
+    //     const base64Image = `data${image.type};base64,${base64}`;
+    //     imageFiles.push(base64Image);
+    //   });
+    // }
+    let base64Image = null;
+
+    if (images?.[0]) {
+      const file = images[0];
+      const arrayBuffer = await file.arrayBuffer();
+      const base64 = Buffer.from(arrayBuffer).toString("base64");
+      base64Image = `data:${file.type};base64,${base64}`;
+    }
+
     console.log(values);
     const response = await fetch("/api/add-product", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, image:base64Image }),
     });
     const result = await response.json();
     console.log("ovo klijent dobije", result);

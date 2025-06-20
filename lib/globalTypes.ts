@@ -12,7 +12,7 @@ export type formFieldsObjectsType = {
     | "condition"
     | "category"
     | "itemLocation"
-    | "shippingCost"
+    | "shippingOption"
     | "sellingMethod";
   label: string;
   initialLabel: string;

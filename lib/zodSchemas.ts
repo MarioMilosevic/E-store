@@ -83,7 +83,7 @@ export const addProductFormSchema = z.object({
       }),
     }
   ),
-  shippingCost: z.enum(
+  shippingOption: z.enum(
     shippingOptions.map((option) => option.id) as [string, ...string[]],
     {
       errorMap: () => ({
@@ -94,7 +94,8 @@ export const addProductFormSchema = z.object({
 });
 export const addProductFormSchemaWithImage = addProductFormSchema.extend({});
 
-// export const serverImageSchema = z.object({
-//   path: z.string(),
-//   relativePath:z.string()
-// })
+export const serverAddProductSchema = addProductFormSchema.extend({
+  image: z
+    .array(z.string().startsWith("data:image/"))
+    .min(1, "At least one image is required"),
+});

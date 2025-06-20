@@ -94,8 +94,8 @@ export const formFieldObjects: formFieldsObjectsType[] = [
     initialLabel: "Select location",
   },
   {
-    id: "shippingCost",
-    name: "shippingCost",
+    id: "shippingOption",
+    name: "shippingOption",
     label: "Shipping Option",
     options: shippingOptions,
     initialLabel: "Select shipping option",

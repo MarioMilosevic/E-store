@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import FormSubmit from "@/components/auth/FormSubmit";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import {  useState } from "react";
 import { dropZoneConfig } from "@/lib/constants";
 import {
   FileUploader,
@@ -32,6 +32,7 @@ import {
   FileUploaderContent,
   FileUploaderItem,
 } from "../ui/file-upload";
+import useUserStore from "@/store/userStore";
 import { Check, ChevronsUpDown, CloudUpload, Paperclip } from "lucide-react";
 import { Popover } from "../ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
@@ -44,6 +45,7 @@ import {
 
 export default function AddProduct() {
   const [images, setImages] = useState<File[] | null>(null);
+  const user = useUserStore((state) => state.user);
 
   const form = useForm<z.infer<typeof addProductFormSchema>>({
     resolver: zodResolver(addProductFormSchema),
@@ -56,12 +58,12 @@ export default function AddProduct() {
       itemLocation: "any",
       price: 0,
       sellingMethod: "auction",
-      shippingCost: "free",
+      shippingOption: "free",
     },
   });
 
   async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
-    const base64Images:string[] = [];
+    const base64Images: string[] = [];
     if (images && images.length > 0) {
       for (const file of images) {
         const arrayBuffer = await file.arrayBuffer();
@@ -76,7 +78,11 @@ export default function AddProduct() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...values, image:base64Images }),
+      body: JSON.stringify({
+        ...values,
+        image: base64Images,
+        seller: user?.id,
+      }),
     });
     const result = await response.json();
     console.log("ovo klijent dobije", result);

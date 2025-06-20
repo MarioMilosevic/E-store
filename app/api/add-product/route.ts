@@ -1,14 +1,8 @@
-import { addProductFormSchema } from "@/lib/zodSchemas";
+import { serverAddProductSchema } from "@/lib/zodSchemas";
 import successFactory from "@/services/success";
 import errorFactory from "@/services/error";
+import prisma from "@/prisma/prismaClient";
 import { uploadImage } from "@/lib/cloudinary";
-import { z } from "zod";
-
-const serverAddProductSchema = addProductFormSchema.extend({
-  image: z
-    .array(z.string().startsWith("data:image/"))
-    .min(1, "At least one image is required"),
-});
 
 export async function POST(req: Request) {
   const response = await req.json();
@@ -25,12 +19,13 @@ export async function POST(req: Request) {
     category,
     condition,
     description,
-    itemLocation,
+    itemLocation: location,
     price,
     sellingMethod,
-    shippingCost,
+    shippingOption,
     title,
   } = result.data;
+  const { seller } = response;
 
   const imageUrls: string[] = [];
 
@@ -44,6 +39,30 @@ export async function POST(req: Request) {
     return errorFactory.internalServerError("Image upload failed");
   }
 
+  console.log("ovo bi trebao biti seller id", seller);
 
+  const newProduct = await prisma.product.create({
+    data: {
+      category,
+      condition,
+      description,
+      location,
+      price,
+      sellingMethod,
+      shippingOption,
+      title,
+      seller: { connect: { id: seller } },
+      images: {
+        create: imageUrls.map(url => ({imageUrl:url}))
+      }
+    },
+  });
+
+  console.log("ovo me zanima", newProduct);
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+ 
+
+  ///////////////////////////////////////////////////////////////////////////////////////////
   return successFactory.ok("uspjelo", "uspjeh");
 }

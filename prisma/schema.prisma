@@ -21,6 +21,8 @@ model User {
   createdDate DateTime @default(now())
   role  Role @default(USER)
   password  String
+  products Product[]
+  purchases Product [] @relation("BuyerProducts")
 }
 
 enum Role {
@@ -34,48 +36,26 @@ model Product {
   description String
   price Float
   createdAt DateTime @default(now())
-  categoryId Int
-  category Category @relation(fields:[categoryId], references: [id])
-  conditionId Int 
-  condition Condition @relation(fields: [conditionId], references: [id])
-  locationId Int
-  location Location @relation(fields:[locationId], references: [id])
-  sellingMethodId Int
-  sellingMethod SellingMethod @relation(fields: [sellingMethodId], references: [id])
-  shippingCostId Int
-  shippingCost ShippingCost @relation(fields: [shippingCostId], references: [id])
-}
-
-model Category {
-  id Int @id @default(autoincrement())
-  name String @unique
-  products Product[]
-}
-
-model Condition {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  products Product[]
-}
-
-model Location {
-  id       Int       @id @default(autoincrement())
-  city     String
-  country  String
-  products Product[]
-}
+  userId Int
+  seller User @relation(fields:[userId], references: [id])
+  buyerId Int?
+  buyer User? @relation("BuyerProducts", fields: [buyerId], references: [id])
+  category String
+  condition String
+  location String
+  sellingMethod String
+  shippingOption String
+  images ProductImage[]
+  }
 
 
-model SellingMethod {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  imageUrl  String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  @@unique([imageUrl, productId]) 
 }
 
-model ShippingCost {
-  id       Int       @id @default(autoincrement())
-  type     String     // "Free", "Flat Rate", etc.
-  amount   Float?
-  products Product[]
-}
 

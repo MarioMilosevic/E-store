@@ -61,31 +61,22 @@ export default function AddProduct() {
   });
 
   async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
-    // const imageFiles = [];
-    // if (images && images.length > 0) {
-    //   images.map(async (image) => {
-    //     const arrayBuffer = await image.arrayBuffer();
-    //     const base64 = Buffer.from(arrayBuffer).toString("base64");
-    //     const base64Image = `data${image.type};base64,${base64}`;
-    //     imageFiles.push(base64Image);
-    //   });
-    // }
-    let base64Image = null;
-
-    if (images?.[0]) {
-      const file = images[0];
-      const arrayBuffer = await file.arrayBuffer();
-      const base64 = Buffer.from(arrayBuffer).toString("base64");
-      base64Image = `data:${file.type};base64,${base64}`;
+    const base64Images:string[] = [];
+    if (images && images.length > 0) {
+      for (const file of images) {
+        const arrayBuffer = await file.arrayBuffer();
+        const base64 = Buffer.from(arrayBuffer).toString("base64");
+        const base64Image = `data:${file.type};base64,${base64}`;
+        base64Images.push(base64Image);
+      }
     }
 
-    console.log(values);
     const response = await fetch("/api/add-product", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...values, image:base64Image }),
+      body: JSON.stringify({ ...values, image:base64Images }),
     });
     const result = await response.json();
     console.log("ovo klijent dobije", result);

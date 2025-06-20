@@ -4,19 +4,16 @@ import errorFactory from "@/services/error";
 import { uploadImage } from "@/lib/cloudinary";
 import { z } from "zod";
 
-// const serverAddProductSchema = addProductFormSchema.omit({ image: true });
-// const serverAddProductSchema = addProductFormSchema.extend({
-//   image: z.array(serverImageSchema).nonempty("At least one image is required"),
-// });
 const serverAddProductSchema = addProductFormSchema.extend({
-  image:z.string().url().or(z.string().startsWith("data:image/"))
-})
+  image: z
+    .array(z.string().startsWith("data:image/"))
+    .min(1, "At least one image is required"),
+});
 
 export async function POST(req: Request) {
   const response = await req.json();
   console.log("sta je ovo", response);
   const result = serverAddProductSchema.safeParse(response);
-  // image: [ { path: './Mario.jpg', relativePath: './Mario.jpg' } ]
 
   if (!result.success) {
     return errorFactory.badRequest("Invalid input data");
@@ -35,14 +32,18 @@ export async function POST(req: Request) {
     title,
   } = result.data;
 
-  let imageUrl = "";
+  const imageUrls: string[] = [];
+
   try {
-    imageUrl = await uploadImage(image);
-    console.log("ovo je imageUrl nakon", imageUrl);
+    for (const base64Image of image) {
+      const uploaded = await uploadImage(base64Image);
+      imageUrls.push(uploaded);
+    }
   } catch (error) {
     console.log("ovo je error,", error);
     return errorFactory.internalServerError("Image upload failed");
   }
+
 
   return successFactory.ok("uspjelo", "uspjeh");
 }

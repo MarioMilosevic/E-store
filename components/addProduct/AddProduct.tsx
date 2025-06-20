@@ -52,7 +52,7 @@ export default function AddProduct() {
     defaultValues: {
       title: "",
       description: "",
-      image: "",
+      images: "",
       condition: "new",
       category: "electronics",
       itemLocation: "any",
@@ -80,7 +80,7 @@ export default function AddProduct() {
       },
       body: JSON.stringify({
         ...values,
-        image: base64Images,
+        images:base64Images,
         seller: user?.id,
       }),
     });
@@ -137,7 +137,7 @@ export default function AddProduct() {
             <FormField
               key={"image"}
               control={form.control}
-              name="image"
+              name="images"
               render={({ field }) => {
                 return (
                   <FormItem>

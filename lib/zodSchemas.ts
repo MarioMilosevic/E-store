@@ -38,7 +38,7 @@ export const addProductFormSchema = z.object({
     .trim()
     .min(10, "Description must be at least 10 characters long")
     .max(500, "Description must be at most 500 characters long"),
-  image: z
+  images: z
     .any()
     .refine(
       (files) => files[0]?.size <= MAX_FILE_SIZE,
@@ -95,7 +95,7 @@ export const addProductFormSchema = z.object({
 export const addProductFormSchemaWithImage = addProductFormSchema.extend({});
 
 export const serverAddProductSchema = addProductFormSchema.extend({
-  image: z
+  images: z
     .array(z.string().startsWith("data:image/"))
     .min(1, "At least one image is required"),
 });

@@ -18,9 +18,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(filePath: string) {
+export async function uploadImage(
+  filePath: string,
+  userId: number,
+  productId: string
+) {
+  console.log(userId)
   const result = await cloudinary.uploader.upload(filePath, {
-    folder:"e-store",
-  })
-  return result.secure_url
+    folder: `e-store/${userId}/${productId}`,
+  });
+  return result.secure_url;
 }

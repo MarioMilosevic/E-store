@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   console.log("proslo validaciju", result.data);
 
   const {
-    image,
+    images,
     category,
     condition,
     description,
@@ -26,18 +26,6 @@ export async function POST(req: Request) {
     title,
   } = result.data;
   const { seller } = response;
-
-  const imageUrls: string[] = [];
-
-  try {
-    for (const base64Image of image) {
-      const uploaded = await uploadImage(base64Image);
-      imageUrls.push(uploaded);
-    }
-  } catch (error) {
-    console.log("ovo je error,", error);
-    return errorFactory.internalServerError("Image upload failed");
-  }
 
   console.log("ovo bi trebao biti seller id", seller);
 
@@ -52,17 +40,34 @@ export async function POST(req: Request) {
       shippingOption,
       title,
       seller: { connect: { id: seller } },
-      images: {
-        create: imageUrls.map(url => ({imageUrl:url}))
-      }
     },
   });
 
   console.log("ovo me zanima", newProduct);
 
+  const imageUrls: string[] = [];
+
+  try {
+    for (const base64Image of images) {
+      const uploaded = await uploadImage(base64Image, seller, newProduct.id);
+      imageUrls.push(uploaded);
+    }
+  } catch (error) {
+    console.log("ovo je error,", error);
+    return errorFactory.internalServerError("Image upload failed");
+  }
+
+  await prisma.product.update({
+    where: { id: newProduct.id },
+    data: {
+      images: {
+        create: imageUrls.map((url) => ({ imageUrl: url })),
+      },
+    },
+  });
+
   ////////////////////////////////////////////////////////////////////////////////////////
- 
 
   ///////////////////////////////////////////////////////////////////////////////////////////
-  return successFactory.ok("uspjelo", "uspjeh");
+  return successFactory.ok(newProduct, "Product created successfully");
 }

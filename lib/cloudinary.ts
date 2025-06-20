@@ -23,9 +23,12 @@ export async function uploadImage(
   userId: number,
   productId: string
 ) {
-  console.log(userId)
+  console.log("ovo je filePath", filePath);
+  console.log("ovo je userID", userId);
+  console.log("ovo je productId", productId);
   const result = await cloudinary.uploader.upload(filePath, {
     folder: `e-store/${userId}/${productId}`,
+    public_id: `${productId}/${crypto.randomUUID()}`,
   });
   return result.secure_url;
 }

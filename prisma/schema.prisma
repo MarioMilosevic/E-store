@@ -23,6 +23,7 @@ model User {
   password  String
   products Product[]
   purchases Product [] @relation("BuyerProducts")
+  bids Bid[]
 }
 
 enum Role {
@@ -30,23 +31,43 @@ enum Role {
   ADMIN
 }
 
+enum SellingMethod {
+  fixed
+  auction
+}
+
 model Product {
-  id String @id @default(uuid())
-  title String
-  description String
-  price Float
-  createdAt DateTime @default(now())
-  userId Int
-  seller User @relation(fields:[userId], references: [id])
-  buyerId Int?
-  buyer User? @relation("BuyerProducts", fields: [buyerId], references: [id])
-  category String
-  condition String
-  location String
-  sellingMethod String
+  id            String         @id @default(uuid())
+  title         String
+  description   String
+  price         Float
+  createdAt     DateTime       @default(now())
+  userId        Int
+  seller        User           @relation(fields: [userId], references: [id])
+  buyerId       Int?
+  buyer         User?          @relation("BuyerProducts", fields: [buyerId], references: [id])
+  category      String
+  condition     String
+  location      String
+  sellingMethod SellingMethod
   shippingOption String
-  images ProductImage[]
-  }
+  images        ProductImage[]
+  auctionEndsAt DateTime?
+  currentBid    Float?
+  bids Bid[]
+}
+
+model Bid {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  createdAt DateTime @default(now())
+  bidderId  Int
+  productId String
+
+  bidder    User     @relation(fields: [bidderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
 
 
 model ProductImage {

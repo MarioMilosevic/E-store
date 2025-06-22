@@ -31,10 +31,7 @@ enum Role {
   ADMIN
 }
 
-enum SellingMethod {
-  fixed
-  auction
-}
+
 
 model Product {
   id            String         @id @default(uuid())
@@ -49,10 +46,11 @@ model Product {
   category      String
   condition     String
   location      String
-  sellingMethod SellingMethod
+  sellingMethod String
   shippingOption String
   images        ProductImage[]
   auctionEndsAt DateTime?
+  status String @default("active")
   currentBid    Float?
   bids Bid[]
 }

@@ -74,6 +74,7 @@ export default function AddProduct() {
       }
     }
 
+
     const response = await fetch("/api/add-product", {
       method: "POST",
       headers: {

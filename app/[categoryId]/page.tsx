@@ -2,21 +2,27 @@ import { CategoriesSidebar } from "@/components/categories/CategoriesSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { categories } from "@/lib/constants";
 import { notFound } from "next/navigation";
-export default async function page({
+
+export default async function Page({
   params,
 }: {
   params: Promise<{ categoryId: string }>;
 }) {
   const { categoryId } = await params;
-  console.log(categoryId);
-  if (categories.findIndex((category) => category.id === categoryId)) {
+
+  const response = await fetch(
+    `http://localhost:3000/api/categories/${categoryId}`
+  );
+  const data = await response.json();
+  console.log("Fetched category data:", data);
+
+  if (categories.findIndex((category) => category.id === categoryId) === -1) {
     notFound();
   }
+
   return (
-    <>
-      <SidebarProvider>
-        <CategoriesSidebar />
-      </SidebarProvider>
-    </>
+    <SidebarProvider>
+      <CategoriesSidebar />
+    </SidebarProvider>
   );
 }

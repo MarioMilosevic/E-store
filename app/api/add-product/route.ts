@@ -1,9 +1,9 @@
 import { serverAddProductSchema } from "@/lib/zodSchemas";
+import { uploadImage } from "@/lib/cloudinary";
+import { addDays } from "date-fns";
 import successFactory from "@/services/success";
 import errorFactory from "@/services/error";
 import prisma from "@/prisma/prismaClient";
-import { uploadImage } from "@/lib/cloudinary";
-import { addDays } from "date-fns";
 
 export async function POST(req: Request) {
   const response = await req.json();
@@ -44,21 +44,6 @@ export async function POST(req: Request) {
   }
 
   const newProduct = await prisma.product.create({ data: productData });
-
-  // const   newProduct = await prisma.product.create({
-  //      data: {
-  //        category,
-  //        condition,
-  //        description,
-  //        location,
-  //        price,
-  //        sellingMethod,
-  //        shippingOption,
-  //         title,
-  //        auctionEndsAt:addDays(new Date(),3),
-  //        seller: { connect: { id: seller } },
-  //      },
-  //    });
 
   if (!newProduct) {
     return errorFactory.badRequest("Something went wrong please try again");

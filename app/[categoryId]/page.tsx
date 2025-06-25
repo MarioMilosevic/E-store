@@ -1,5 +1,5 @@
-import { CategoriesSidebar } from "@/components/categories/CategoriesSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import SingleCategory from "@/components/singleCategory/SingleCategory";
+
 import { categories } from "@/lib/constants";
 import { notFound } from "next/navigation";
 
@@ -20,9 +20,5 @@ export default async function Page({
     notFound();
   }
 
-  return (
-    <SidebarProvider>
-      <CategoriesSidebar />
-    </SidebarProvider>
-  );
+  return <SingleCategory />;
 }

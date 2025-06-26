@@ -18,13 +18,28 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(
+export async function uploadImages(
   filePath: string,
-  userId: number,
-  productId: string
+  data: {
+    userId: number,
+    productId: string,
+    category: string
+  }
 ) {
+  const { userId, productId, category } = data;
   const result = await cloudinary.uploader.upload(filePath, {
-    folder: `e-store/${userId}/${productId}`,
+    folder: `e-store/${category}/${userId}/${productId}`,
   });
   return result.secure_url;
+}
+
+
+export async function getCategoryImages(categoryId: string) {
+  console.log('u getCategoryImages', categoryId);
+  const result = await cloudinary.api.resources({
+    type: "upload",
+    prefix: `e-store/${categoryId}`,
+  });
+  console.log('ovo je neki result', result);
+  return result.resources.map((resource) => resource.secure_url);
 }

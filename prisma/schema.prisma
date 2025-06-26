@@ -48,7 +48,6 @@ model Product {
   location      String
   sellingMethod String
   shippingOption String
-  images        ProductImage[]
   auctionEndsAt DateTime?
   status String @default("active")
   currentBid    Float?
@@ -65,16 +64,3 @@ model Bid {
   bidder    User     @relation(fields: [bidderId], references: [id])
   product   Product  @relation(fields: [productId], references: [id])
 }
-
-
-
-model ProductImage {
-  id        Int     @id @default(autoincrement())
-  imageUrl  String
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
-
-  @@unique([imageUrl, productId]) 
-}
-
-

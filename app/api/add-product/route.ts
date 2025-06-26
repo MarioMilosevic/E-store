@@ -1,5 +1,5 @@
 import { serverAddProductSchema } from "@/lib/zodSchemas";
-import { uploadImage } from "@/lib/cloudinary";
+import { uploadImages } from "@/lib/cloudinary";
 import { addDays } from "date-fns";
 import successFactory from "@/services/success";
 import errorFactory from "@/services/error";
@@ -50,10 +50,15 @@ export async function POST(req: Request) {
   }
 
   const imageUrls: string[] = [];
+  const data = {
+    userId: seller,
+    productId: newProduct.id,
+    category,
+  };
 
   try {
     for (const base64Image of images) {
-      const uploaded = await uploadImage(base64Image, seller, newProduct.id);
+      const uploaded = await uploadImages(base64Image, data);
       imageUrls.push(uploaded);
     }
   } catch (error) {

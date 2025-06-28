@@ -1,17 +1,21 @@
 import errorFactory from "@/services/error";
 import prisma from "@/prisma/prismaClient";
 import successFactory from "@/services/success";
-import { getSingleImagePerCategory } from "@/lib/cloudinary";
+import { getSingleImagesPerCategory } from "@/lib/cloudinary";
 
 export async function GET(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  {
+    params,
+  }: {
+    params: Promise<{ categoryId: string }>;
+  }
 ) {
-  const { categoryId } = params;
+  const { categoryId } = await params;
   console.log("ovo me zanima", categoryId);
 
   const [singleImage, products] = await Promise.all([
-    getSingleImagePerCategory(categoryId),
+    getSingleImagesPerCategory(categoryId),
     prisma.product.findMany({
       where: {
         category: categoryId,

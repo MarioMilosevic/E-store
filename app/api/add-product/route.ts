@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     sellingMethod,
     shippingOption,
     title,
-    auctionEndsAt: addDays(new Date(), 3),
+    auctionEndsAt: addDays(new Date(), 0),
     seller: { connect: { id: seller } },
   };
 
@@ -50,15 +50,10 @@ export async function POST(req: Request) {
   }
 
   const imageUrls: string[] = [];
-  const data = {
-    userId: seller,
-    productId: newProduct.id,
-    category,
-  };
 
   try {
     for (const base64Image of images) {
-      const uploaded = await uploadImages(base64Image, data);
+      const uploaded = await uploadImages(base64Image);
       imageUrls.push(uploaded);
     }
   } catch (error) {

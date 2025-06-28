@@ -45,6 +45,7 @@ model Product {
   buyer         User?          @relation("BuyerProducts", fields: [buyerId], references: [id])
   category      String
   condition     String
+  images        ProductImage[]
   location      String
   sellingMethod String
   shippingOption String
@@ -60,7 +61,15 @@ model Bid {
   createdAt DateTime @default(now())
   bidderId  Int
   productId String
-
   bidder    User     @relation(fields: [bidderId], references: [id])
   product   Product  @relation(fields: [productId], references: [id])
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  imageUrl  String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  @@unique([imageUrl, productId])
 }

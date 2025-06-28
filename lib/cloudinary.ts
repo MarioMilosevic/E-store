@@ -18,30 +18,22 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImages(
-  filePath: string,
-  data: {
-    userId: number;
-    productId: string;
-    category: string;
-  }
-) {
-  const { userId, productId, category } = data;
+export async function uploadImages(filePath: string) {
   const result = await cloudinary.uploader.upload(filePath, {
-    folder: `e-store/${category}/${userId}/${productId}`,
+    folder: `e-store`,
   });
   return result.secure_url;
 }
 
-export async function getSingleImagePerCategory(categoryId: string) {
-  console.log("u getSingleImagePerCategory", categoryId);
+export async function getSingleImagesPerCategory(categoryId: string) {
+  console.log("u getSingleImagesPerCategory", categoryId);
   const result = await cloudinary.api.resources({
     type: "upload",
     prefix: `e-store/${categoryId}`,
     resource_type: "image",
-    max_results: 1,
+    max_results: 12,
   });
-  console.log("ovo je neki result", result);
   // mozda ne treba da bude prvi nego svaki, vidjecu
-  return result.resources[0].secure_url || null;
+  console.log('ovo me isto zanima', result.resources)
+  return result.resources.map((resource) => resource.secure_url)[0] || null;
 }

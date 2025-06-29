@@ -1,5 +1,3 @@
-import SingleCategory from "@/components/singleCategory/SingleCategory";
-
 import { categories } from "@/lib/constants";
 import { notFound } from "next/navigation";
 
@@ -16,12 +14,21 @@ export default async function Page({
   const response = await fetch(
     `http://localhost:3000/api/categories/${categoryId}`
   );
-  const data = await response.json();
-  console.log("Fetched category data:", data);
+  const res = await response.json();
+  console.log("Fetched category res:", res);
 
-  if (data.success === false) {
-    return <p>{data.message}</p>;
+  if (res.success === false) {
+    return <p>{res.message}</p>;
   }
 
-  return <SingleCategory />;
+  return (
+    <>
+      mario
+      {/* {res.data.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))} */}
+    </>
+  );
+
+  // return <SingleCategory />;
 }

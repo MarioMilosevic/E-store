@@ -19,7 +19,7 @@ export async function GET(
   });
 
   if (products.length === 0) {
-    return errorFactory.notFound("Category not found or no products available");
+    return errorFactory.notFound("No products available");
   }
 
   const productIds = products.map((product) => product.id);

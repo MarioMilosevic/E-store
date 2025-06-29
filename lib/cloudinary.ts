@@ -25,15 +25,15 @@ export async function uploadImages(filePath: string) {
   return result.secure_url;
 }
 
-export async function getSingleImagesPerCategory(categoryId: string) {
-  console.log("u getSingleImagesPerCategory", categoryId);
-  const result = await cloudinary.api.resources({
-    type: "upload",
-    prefix: `e-store/${categoryId}`,
-    resource_type: "image",
-    max_results: 12,
-  });
-  // mozda ne treba da bude prvi nego svaki, vidjecu
-  console.log('ovo me isto zanima', result.resources)
-  return result.resources.map((resource) => resource.secure_url)[0] || null;
-}
+// export async function getSingleImagesPerCategory(categoryId: string) {
+//   console.log("u getSingleImagesPerCategory", categoryId);
+//   const result = await cloudinary.api.resources({
+//     type: "upload",
+//     prefix: `e-store/${categoryId}`,
+//     resource_type: "image",
+//     max_results: 12,
+//   });
+//   // mozda ne treba da bude prvi nego svaki, vidjecu
+//   console.log('ovo me isto zanima', result.resources)
+//   return result.resources.map((resource) => resource.secure_url)[0] || null;
+// }

@@ -1,5 +1,6 @@
 import { categories } from "@/lib/constants";
 import { notFound } from "next/navigation";
+import EstoreCard from "@/components/ui/EstoreCard";
 
 export default async function Page({
   params,
@@ -23,9 +24,9 @@ export default async function Page({
 
   return (
     <>
-      mario
-      {/* {res.data.map((product) => (
-        <ProductCard key={product.id} product={product} />
+      {/* res.data ima vise propertija nego sto EtoreCard prima, pa to moram prilagoditi */}
+     mario {/* {res.data.map((category) => (
+        <EstoreCard key={category.id} data={category} />
       ))} */}
     </>
   );

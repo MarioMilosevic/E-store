@@ -50,7 +50,7 @@ export default async function Page({
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
       {res.data.map((data: ProductType) => (
         <EstoreCard key={data.id} data={data} />
       ))}

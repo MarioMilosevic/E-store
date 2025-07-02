@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
 import { ProductType } from "@/lib/globalTypes";
+import Image from "next/image";
 
 type EstoreCardProps = {
   data: ProductType;
@@ -35,8 +35,8 @@ export default function EstoreCard({ data }: EstoreCardProps) {
     userId,
   } = data;
   return (
-    <Link href={id} key={id}>
-      <Card className="w-[300px] cursor-pointer py-0 hover:scale-105 duration-300 transition-all">
+    <Card className="w-[300px] p-4">
+      <Link href={id} key={id} className="cursor-pointer">
         <CardHeader>
           <Image
             src={singleImage}
@@ -46,16 +46,17 @@ export default function EstoreCard({ data }: EstoreCardProps) {
             priority
             className="object-cover rounded-t-xl"
           />
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-        <CardContent className="relative w-full h-3/4 p-0 rounded-xl">
-          {price}
-        </CardContent>
-        <CardFooter className="justify-center pb-4">
-          {/* <TypographyH4>{data.singleImage}</TypographyH4> */}
-        </CardFooter>
-      </Card>
-    </Link>
+      </Link>
+      <CardContent>
+        <p className="font-semibold text-xl">${price}</p>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-2 items-start">
+        <p>But it now</p>
+        <p>Located in {location}</p>
+      </CardFooter>
+    </Card>
   );
 }

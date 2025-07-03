@@ -35,7 +35,7 @@ export default function EstoreCard({ data }: EstoreCardProps) {
     userId,
   } = data;
   return (
-    <Card className="w-[300px] p-4">
+    <Card className="w-[300px]">
       <Link href={id} key={id} className="cursor-pointer">
         <CardHeader>
           <Image
@@ -44,7 +44,7 @@ export default function EstoreCard({ data }: EstoreCardProps) {
             height={300}
             width={300}
             priority
-            className="object-cover rounded-t-xl"
+            className="object-cover rounded-t-xl w-[300px] h-[300px] mb-4"
           />
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>

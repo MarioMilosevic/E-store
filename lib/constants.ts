@@ -40,7 +40,6 @@ export const conditions = [
 ];
 
 export const locations = [
-  { id: "any", label: "Any" },
   { id: "us-only", label: "US Only" },
   { id: "north-america", label: "North America" },
   { id: "europe", label: "Europe" },

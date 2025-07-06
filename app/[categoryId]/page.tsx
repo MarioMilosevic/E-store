@@ -33,7 +33,7 @@ export default async function Page({
   }
 
   return (
-    <main className="border border-black flex flex-col gap-4">
+    <main className="flex flex-col gap-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

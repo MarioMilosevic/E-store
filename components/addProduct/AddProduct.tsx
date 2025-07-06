@@ -56,7 +56,7 @@ export default function AddProduct() {
       images: "",
       condition: "new",
       category: "electronics",
-      itemLocation: "any",
+      itemLocation: "us-only",
       price: 0,
       sellingMethod: "auction",
       shippingOption: "free",

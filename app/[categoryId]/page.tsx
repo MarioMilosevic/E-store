@@ -9,7 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import EstoreCard from "@/components/ui/EstoreCard";
+import ProductCard from "@/components/ui/ProductCard";
 
 export default async function Page({
   params,
@@ -44,14 +44,14 @@ export default async function Page({
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbLink asChild className="capitalize">
-              <Link href="/components">{categoryId}</Link>
+              <Link href={`${categoryId}`}>{categoryId}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex gap-4 flex-wrap">
       {res.data.map((data: ProductType) => (
-        <EstoreCard key={data.id} data={data} />
+        <ProductCard key={data.id} data={data} categoryId={categoryId} />
       ))}
       </div>
     </main>

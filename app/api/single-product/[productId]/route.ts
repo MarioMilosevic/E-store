@@ -1,6 +1,6 @@
 import successFactory from "@/services/success";
-// import errorFactory from "@/services/error";
-// import prisma from "@/prisma/prismaClient";
+import errorFactory from "@/services/error";
+import prisma from "@/prisma/prismaClient";
 
 export async function GET(
   req: Request,
@@ -10,9 +10,23 @@ export async function GET(
     params: Promise<{ productId: string }>;
   }
 ) {
-  console.log('uslo odje jebem mu materrrrrrrrrrrsdewwwwwwwwwwwwwwwwwwwwiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii022222222223002')
   const { productId } = await params;
-  console.log("ovo me znaima", productId);
-  // return successFactory.ok(productId, "Eo ti na")
-  return successFactory.ok(productId, 'ovo je productId')
+
+  const [singleProduct, productImages] = await Promise.all([
+    prisma.product.findUnique({
+      where: { id: productId },
+    }),
+    prisma.productImage.findMany({
+      where: { productId },
+      select: { imageUrl: true },
+    }),
+  ]);
+
+  if (!singleProduct || !productImages) {
+    return errorFactory.notFound("Product with this id has not been found");
+  }
+
+  const data = { ...singleProduct, images: productImages };
+
+  return successFactory.ok(data, "Single product fetched successfully");
 }

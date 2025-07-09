@@ -27,7 +27,7 @@ export default function ProductCard({ data, categoryId }: EstoreCardProps) {
   } = data;
   return (
     <Card className="w-[300px]">
-      <Link href={`${categoryId}/${title}`} key={id} className="cursor-pointer">
+      <Link href={`${categoryId}/${id}`} className="cursor-pointer">
         <CardHeader>
           <Image
             src={singleImage}

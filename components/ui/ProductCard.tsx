@@ -12,30 +12,22 @@ import Image from "next/image";
 
 type EstoreCardProps = {
   data: ProductType;
-  categoryId:string
+  categoryId: string;
 };
 
 export default function ProductCard({ data, categoryId }: EstoreCardProps) {
-  console.log("ovo je data sto dobijm", data);
-  const {
-    description,
-    id,
-    location,
-    price,
-    singleImage,
-    title,
-  } = data;
+  const { description, id, location, price, singleImage, title } = data;
   return (
     <Card className="w-[300px]">
       <Link href={`${categoryId}/${id}`} className="cursor-pointer">
-        <CardHeader>
+        <CardHeader className="relative w-full h-[300px]">
           <Image
             src={singleImage}
             alt={singleImage}
-            height={300}
-            width={300}
+            fill
+            sizes="(max-width: 768px) 100vw, 300px"
             priority
-            className="object-cover rounded-t-xl w-[300px] h-[300px] mb-4"
+            className="object-cover rounded-t-xl mb-4"
           />
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -45,7 +37,7 @@ export default function ProductCard({ data, categoryId }: EstoreCardProps) {
         <p className="font-semibold text-xl">${price}</p>
       </CardContent>
       <CardFooter className="flex flex-col gap-2 items-start">
-        <p>But it now</p>
+        <p>Buy it now</p>
         <p>Located in {location}</p>
       </CardFooter>
     </Card>

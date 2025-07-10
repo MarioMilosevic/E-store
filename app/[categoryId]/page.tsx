@@ -17,7 +17,6 @@ export default async function Page({
   params: Promise<{ categoryId: string }>;
 }) {
   const { categoryId } = await params;
-  console.log(categoryId);
   if (categories.findIndex((category) => category.id === categoryId) === -1) {
     notFound();
   }
@@ -26,7 +25,6 @@ export default async function Page({
     `http://localhost:3000/api/categories/${categoryId}`
   );
   const res = await response.json();
-  console.log("Fetched category res:", res);
 
   if (res.success === false) {
     return <p>{res.message}</p>;
@@ -50,9 +48,9 @@ export default async function Page({
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex gap-4 flex-wrap">
-      {res.data.map((data: ProductType) => (
-        <ProductCard key={data.id} data={data} categoryId={categoryId} />
-      ))}
+        {res.data.map((data: ProductType) => (
+          <ProductCard key={data.id} data={data} categoryId={categoryId} />
+        ))}
       </div>
     </main>
   );

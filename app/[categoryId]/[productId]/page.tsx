@@ -1,21 +1,21 @@
+import SingleProduct from "@/components/singleProduct/SingleProduct";
+
 export default async function page({
   params,
 }: {
   params: Promise<{ productId: string }>;
 }) {
   const { productId } = await params;
-  console.log("ovo je PRODUCT ID",productId)
-
-  
 
   const response = await fetch(
     `http://localhost:3000/api/single-product/${productId}`
-    );
-  const res = await response.json();
-  console.log("Fetched category res:", res);
+  );
+  const {data, message, success} = await response.json();
 
-//   if (res.success === false) {
-//     return <p>{res.message}</p>;
-//   }
-  return <div>mario</div>;
+    if (success === false) {
+      return <p>{message}</p>;
+  }
+  
+
+  return <SingleProduct data={data} />;
 }

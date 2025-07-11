@@ -38,7 +38,7 @@ export default function ProductCard({ data, categoryId }: EstoreCardProps) {
       </CardContent>
       <CardFooter className="flex flex-col gap-2 items-start">
         <p>Buy it now</p>
-        <p>Located in {location}</p>
+        <p className="capitalize">Located in {location}</p>
       </CardFooter>
     </Card>
   );

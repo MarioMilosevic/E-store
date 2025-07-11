@@ -35,8 +35,11 @@ export type ProductType = {
   price: number;
   sellingMethod: string;
   shippingOption: string;
-  singleImage: string;
+  singleImage?: string;
+  images?: {
+    imageUrl: string;
+  }[];
   status: string;
   title: string;
-  userId:number
-}
+  userId: number;
+};
